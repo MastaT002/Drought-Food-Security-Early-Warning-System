@@ -7,22 +7,60 @@
 ---
 
 ### IPC Acute Food Insecurity Phase Classifications
+
 | Attribute | Detail |
 |---|---|
-| **Source** | Famine Early Warning Systems Network (FEWS NET) |
-| **Data Explorer URL** | https://fews.net/data/acute-food-insecurity |
-| **Reports Page** | https://fews.net/east-africa/kenya (for context PDFs only) |
-| **Format** | CSV, Excel, Shapefile, GeoJSON (via Data Explorer) |
-| **Coverage** | Kenya, county-level, June 2009–present |
-| **Update Frequency** | Quarterly (Jan, Apr, Jul, Oct) |
-| **Granularity** | County-level, IPC Phase 1–5 + population estimates |
-| **Access** | Free — requires free FEWS NET account for downloads |
-| **Quality** | ⭐⭐⭐⭐⭐ High — global standard used by UN/WFP/NGOs |
-| **Notes** | Search Data Explorer for "Kenya Acute Food Insecurity Classification". Look for files with columns: `Area`, `Date`, `IPC_Phase`, `Population`. Need **at least 5–8 years** (2017–2025) for modeling. |
+| **Source** | Integrated Food Security Phase Classification (IPC) via Humanitarian Data Exchange (HDX) |
+| **Dataset URL** | https://data.humdata.org/dataset/kenya-acute-food-insecurity-country-data |
+| **File Downloaded** | `ipc_ken_area_long.csv` |
+| **File Size** | ~414 KB |
+| **Raw Shape** | 5,047 rows × 11 columns |
+| **Format** | CSV — long format |
+| **Coverage Period** | Jul 2019–Feb 2026 |
+| **Analysis Dates** | 15 analysis dates |
+| **Validity Types** | `current` and `first projection` |
+| **Granularity** | Area/county-level IPC Phase 1–5, Phase 3+ aggregate, total population, and percentage |
+| **Access** | Free, public dataset |
+| **Use in Project** | Target variable for county-level food insecurity severity modeling |
 
-**Alternative / Backup:**  
-- HDX (Humanitarian Data Exchange): https://data.humdata.org/organization/fewsnet  
-- World Bank Harmonized Dataset: https://datacatalog.worldbank.org/search/dataset/0064614/harmonized-sub-national-food-security-data
+**Important Structure Notes:**
+- Each area/date/validity-period combination has multiple phase rows:
+  - `all` = total population
+  - `3+` = population in IPC Phase 3 or worse
+  - `1`, `2`, `3`, `4`, `5` = population in each IPC phase
+- For modeling, `current` records will be used as the main observed target.
+- `first projection` records may later be used for comparison or validation.
+
+**Data Cleaning Required:**
+- Standardize county names:
+  - `TANA RIVER`, `Tana river` → `Tana River`
+  - `Taita`, `Taita taveta` → `Taita Taveta`
+  - `Tharaka`, `Tharaka-nithi` → `Tharaka Nithi`
+  - `West pokot` → `West Pokot`
+  - `Lamu county` → `Lamu`
+  - `Embu (Mbeere)` → `Embu`
+- Aggregate sub-county/sub-area records:
+  - `Marsabit - moyale`, `Marsabit - laisamis`, `Marsabit - saku`, `Marsabit - north horr` → `Marsabit`
+  - `Turkana west`, `Turkana south`, `Turkana central`, `Turkana north`, `Turkana east-kibish-loima` → `Turkana`
+- Remove non-target analysis areas such as urban settlements, refugee/camp areas, and Non-ASAL/Diaspora records.
+- Filter to modeling-ready county-level observations.
+
+**Known Data Gaps / Inconsistencies:**
+- `Apr 2022` appears only as `first projection`; it does not have `current` observations.
+- `Machakos` appears only in Jan 2023 and is classified under `Non-ASAL (Diaspora)`, so it will be excluded from modeling.
+- `Jul 2024` reports Marsabit and Turkana as sub-areas instead of direct county totals, so these must be aggregated.
+- County naming is inconsistent across years and must be standardized before merging with rainfall, price, or boundary datasets.
+
+**Planned Modeling-Ready Output:**
+`ipc_max_phase_per_county.csv`
+
+Expected columns:
+- `date`
+- `county`
+- `max_ipc_phase`
+- `phase_3_plus_population`
+- `total_population`
+- `phase_3_plus_percentage`
 
 ---
 
