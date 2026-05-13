@@ -6,23 +6,23 @@
 
 ---
 
-## 1. Target Variable
-
 ### IPC Acute Food Insecurity Phase Classifications
 | Attribute | Detail |
 |---|---|
 | **Source** | Famine Early Warning Systems Network (FEWS NET) |
-| **URL** | https://fews.net/ |
-| **Format** | PDF reports + downloadable Excel/CSV (via FEWS NET Data Warehouse) |
-| **Coverage** | Kenya, 23 ASAL counties, 2009–present |
+| **Data Explorer URL** | https://fews.net/data/acute-food-insecurity |
+| **Reports Page** | https://fews.net/east-africa/kenya (for context PDFs only) |
+| **Format** | CSV, Excel, Shapefile, GeoJSON (via Data Explorer) |
+| **Coverage** | Kenya, county-level, June 2009–present |
 | **Update Frequency** | Quarterly (Jan, Apr, Jul, Oct) |
-| **Granularity** | County-level, IPC Phase 1–5 |
-| **Access** | Free, public — registration optional for bulk download |
-| **Quality** | ⭐⭐⭐⭐⭐ High — this is the global standard used by UN/WFP/NGOs |
-| **Notes** | Download the "Kenya Food Security Outlook" and "Acute Food Insecurity" datasets. Look for files with columns: `Area`, `Date`, `IPC_Phase`. You need **at least 5–8 years** of historical data for meaningful time-series modeling. |
+| **Granularity** | County-level, IPC Phase 1–5 + population estimates |
+| **Access** | Free — requires free FEWS NET account for downloads |
+| **Quality** | ⭐⭐⭐⭐⭐ High — global standard used by UN/WFP/NGOs |
+| **Notes** | Search Data Explorer for "Kenya Acute Food Insecurity Classification". Look for files with columns: `Area`, `Date`, `IPC_Phase`, `Population`. Need **at least 5–8 years** (2017–2025) for modeling. |
 
-**Direct download link:** https://fews.net/country/kenya  
-**Alternative:** https://data.humdata.org/dataset/fews-net-food-security-outlook
+**Alternative / Backup:**  
+- HDX (Humanitarian Data Exchange): https://data.humdata.org/organization/fewsnet  
+- World Bank Harmonized Dataset: https://datacatalog.worldbank.org/search/dataset/0064614/harmonized-sub-national-food-security-data
 
 ---
 
