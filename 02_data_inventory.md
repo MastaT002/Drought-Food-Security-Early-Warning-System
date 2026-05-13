@@ -28,8 +28,15 @@
   - `all` = total population
   - `3+` = population in IPC Phase 3 or worse
   - `1`, `2`, `3`, `4`, `5` = population in each IPC phase
-- For modeling, `current` records will be used as the main observed target.
-- `first projection` records may later be used for comparison or validation.
+- For the first modeling-ready dataset, `current` records will be used as the observed target.
+- `first projection` records may later be used for comparison, validation, or future forecast benchmarking.
+
+**Initial Data Quality Findings:**
+- The raw dataset contains 5,047 rows and 11 columns.
+- Main modeling columns are complete: `Date of analysis`, `Area`, `Validity period`, `Phase`, `Number`, and `Percentage`.
+- The `Level 1` column has missing values, but it is not required for the first processed output.
+- Date columns are currently stored as text and need to be converted into proper date format.
+- The dataset includes both county-level records and non-county analysis areas.
 
 **Data Cleaning Required:**
 - Standardize county names:
@@ -44,18 +51,21 @@
   - `Turkana west`, `Turkana south`, `Turkana central`, `Turkana north`, `Turkana east-kibish-loima` → `Turkana`
 - Remove non-target analysis areas such as urban settlements, refugee/camp areas, and Non-ASAL/Diaspora records.
 - Filter to modeling-ready county-level observations.
+- Keep `current` IPC records as the main observed target dataset.
 
 **Known Data Gaps / Inconsistencies:**
 - `Apr 2022` appears only as `first projection`; it does not have `current` observations.
 - `Machakos` appears only in Jan 2023 and is classified under `Non-ASAL (Diaspora)`, so it will be excluded from modeling.
 - `Jul 2024` reports Marsabit and Turkana as sub-areas instead of direct county totals, so these must be aggregated.
 - County naming is inconsistent across years and must be standardized before merging with rainfall, price, or boundary datasets.
+- The dataset includes extra non-county areas such as urban settlements and refugee/camp locations, which are not part of the county-level model.
 
 **Planned Modeling-Ready Output:**
 `ipc_max_phase_per_county.csv`
 
 Expected columns:
 - `date`
+- `analysis_period`
 - `county`
 - `max_ipc_phase`
 - `phase_3_plus_population`
