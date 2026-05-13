@@ -39,17 +39,18 @@ Build an interpretable ML model that forecasts **IPC food insecurity phase** (Ph
 - **Notebook Environment:** Jupyter Lab
 
 ## Project Structure
+
 ├── 01_project_brief.md          # Problem definition & scope
 ├── 02_data/
-│   ├── raw/                     # Original downloaded datasets
-│   └── processed/               # Cleaned & merged datasets
+│   ├── raw/                       # Original downloaded datasets
+│   └── processed/                 # Cleaned & merged datasets
 ├── 03_notebooks/
-│   ├── 01_eda.ipynb             # Exploratory Data Analysis
+│   ├── 01_eda.ipynb               # Exploratory Data Analysis
 │   ├── 02_feature_engineering.ipynb
-│   └── 03_modeling.ipynb        # Model training & evaluation
-├── 04_dashboard/                # Final output (maps + risk tables)
-├── data_dictionary.csv          # Column definitions
-└── README.md                    # This file
+│   └── 03_modeling.ipynb          # Model training & evaluation
+├── 04_dashboard/                  # Final output (maps + risk tables)
+├── data_dictionary.csv            # Column definitions
+└── README.md                      # This file
 
 ## Status
 
