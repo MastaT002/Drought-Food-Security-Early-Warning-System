@@ -2,8 +2,7 @@
 
 **Project:** Drought & Food Security Early Warning System  
 **Date:** May 2026  
-**Status:** Discovery Phase — URLs verified, download in progress
-
+*Status:** IPC data cleaned — first modeling-ready dataset created
 ---
 
 ### IPC Acute Food Insecurity Phase Classifications
@@ -38,20 +37,21 @@
 - Date columns are currently stored as text and need to be converted into proper date format.
 - The dataset includes both county-level records and non-county analysis areas.
 
-**Data Cleaning Required:**
-- Standardize county names:
+**Data Cleaning Performed:**
+- Standardized county names:
   - `TANA RIVER`, `Tana river` → `Tana River`
   - `Taita`, `Taita taveta` → `Taita Taveta`
   - `Tharaka`, `Tharaka-nithi` → `Tharaka Nithi`
   - `West pokot` → `West Pokot`
   - `Lamu county` → `Lamu`
   - `Embu (Mbeere)` → `Embu`
-- Aggregate sub-county/sub-area records:
+- Aggregated sub-county/sub-area records:
   - `Marsabit - moyale`, `Marsabit - laisamis`, `Marsabit - saku`, `Marsabit - north horr` → `Marsabit`
   - `Turkana west`, `Turkana south`, `Turkana central`, `Turkana north`, `Turkana east-kibish-loima` → `Turkana`
-- Remove non-target analysis areas such as urban settlements, refugee/camp areas, and Non-ASAL/Diaspora records.
-- Filter to modeling-ready county-level observations.
-- Keep `current` IPC records as the main observed target dataset.
+- Removed non-target analysis areas such as urban settlements, refugee/camp areas, and Non-ASAL/Diaspora records.
+- Filtered to `current` IPC records only.
+- Filtered to the 23 target counties.
+- Created one modeling-ready row per county per analysis period.
 
 **Known Data Gaps / Inconsistencies:**
 - `Apr 2022` appears only as `first projection`; it does not have `current` observations.
@@ -60,10 +60,16 @@
 - County naming is inconsistent across years and must be standardized before merging with rainfall, price, or boundary datasets.
 - The dataset includes extra non-county areas such as urban settlements and refugee/camp locations, which are not part of the county-level model.
 
-**Planned Modeling-Ready Output:**
-`ipc_max_phase_per_county.csv`
+**Modeling-Ready Output Created:**
+`02_data/processed/ipc_max_phase_per_county.csv`
 
-Expected columns:
+Final shape:
+- 322 rows
+- 7 columns
+
+The final dataset contains 14 current IPC analysis periods across 23 target counties.
+
+Final columns:
 - `date`
 - `analysis_period`
 - `county`
@@ -148,7 +154,7 @@ Select "Kenya" → download CSV.
 | **Quality** | ⭐⭐⭐⭐⭐ High |
 | **Notes** | You'll use this to: (1) aggregate CHIRPS/NDVI pixels to county means, (2) create choropleth risk maps. Filter to the 23 ASAL counties only. |
 
-**ASAL county list (23):** Baringo, Garissa, Isiolo, Kajiado, Kilifi, Kitui, Kwale, Lakipia, Lamu, Machakos, Makueni, Mandera, Marsabit, Meru, Mombasa, Narok, Samburu, Taita Taveta, Tana River, Tharaka Nithi, Turkana, Wajir, West Pokot
+**Target county list used in processed IPC dataset (23):** Baringo, Embu, Garissa, Isiolo, Kajiado, Kilifi, Kitui, Kwale, Laikipia, Lamu, Makueni, Mandera, Marsabit, Meru, Narok, Nyeri, Samburu, Taita Taveta, Tana River, Tharaka Nithi, Turkana, Wajir, West Pokot
 
 ---
 
@@ -202,12 +208,15 @@ Select "Kenya" → download CSV.
 
 ## 9. Next Steps
 
-1. [ ] **Register for Google Earth Engine** (needed for CHIRPS + NDVI extraction)
-2. [ ] **Download IPC historical data** from FEWS NET (Excel format)
-3. [ ] **Download FAO FPMA price data** for Kenya (CSV format)
-4. [ ] **Download Kenya county shapefile** from GADM or HDX
-5. [ ] **Create `data_dictionary.csv`** documenting every column from every source
-6. [ ] **Begin EDA notebook** — first step: plot IPC phase trends by county over time
+1. [x] **Download IPC historical data** from HDX
+2. [x] **Create first IPC cleaning notebook**
+3. [x] **Create processed IPC county-level dataset**
+4. [ ] **Upload processed dataset and cleaning notebook to GitHub**
+5. [ ] **Create `data_dictionary.csv`** documenting the processed IPC columns
+6. [ ] **Begin EDA notebook** — first step: analyze IPC severity trends by county over time
+7. [ ] **Download Kenya county shapefile** from GADM or HDX
+8. [ ] **Register for Google Earth Engine** for CHIRPS rainfall and MODIS NDVI extraction
+9. [ ] **Download FAO FPMA price data** for Kenya
 
 ---
 
