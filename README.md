@@ -55,9 +55,16 @@ Drought-Food-Security-Early-Warning-System/
 └── README.md                        # Project overview
 ```
 
-## Status
+## Project Status
 
-🚧 **In Development** — Currently in data discovery & project scoping phase.
+✅ Project brief completed  
+✅ IPC raw dataset uploaded  
+✅ IPC data inventory documented  
+✅ IPC data cleaning completed  
+✅ Modeling-ready IPC dataset created  
+✅ Initial EDA completed  
+
+Next stage: Add predictor datasets such as rainfall, vegetation health, and food prices.
 
 ## License
 
