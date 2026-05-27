@@ -115,9 +115,10 @@ Drought-Food-Security-Early-Warning-System/
 ✅ Master dataset EDA completed  
 ✅ Correlation analysis completed  
 
-Current stage: Preparing for baseline machine learning model.
+**Current stage:** Preparing for baseline machine learning model.
 
-Next stage:
+**Next stage:**
+
 ⬜ Build baseline classification model  
 ⬜ Predict high-risk food insecurity cases using rainfall and NDVI features  
 ⬜ Evaluate model performance  
