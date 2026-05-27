@@ -1,0 +1,8 @@
+indicator,correlation_with_phase3_plus_percentage
+ndvi_3_month_mean,-0.692
+ndvi_6_month_mean,-0.687
+mean_ndvi,-0.614
+rainfall_6_month_avg,-0.585
+rainfall_3_month_avg,-0.47
+ndvi_anomaly,-0.368
+max_ipc_phase,0.764
