@@ -2,7 +2,7 @@
 
 **Project:** Drought & Food Security Early Warning System  
 **Date:** May 2026  
-*Status:** IPC data cleaned — first modeling-ready dataset created
+**Status:** IPC, CHIRPS rainfall, MODIS NDVI, master dataset EDA, and baseline modeling completed
 ---
 
 ### IPC Acute Food Insecurity Phase Classifications
@@ -77,6 +77,60 @@ Final columns:
 - `phase_3_plus_population`
 - `total_population`
 - `phase_3_plus_percentage`
+
+---
+
+---
+
+## Master Modeling Dataset Created
+
+The project now includes a master dataset combining IPC food insecurity outcomes, CHIRPS rainfall indicators, and MODIS NDVI vegetation indicators.
+
+**Master dataset:**
+`02_data/processed/ipc_rainfall_ndvi_master_dataset.csv`
+
+Final shape:
+
+* 322 rows
+* 19 columns
+
+This dataset is the main modeling dataset used for baseline machine learning.
+
+Main column groups:
+
+* IPC outcome columns:
+
+  * `ipc_date`
+  * `analysis_period`
+  * `county`
+  * `max_ipc_phase`
+  * `phase_3_plus_population`
+  * `total_population`
+  * `phase_3_plus_percentage`
+
+* Rainfall feature columns:
+
+  * `rainfall_date`
+  * `mean_rainfall_mm`
+  * `rainfall_3_month_total`
+  * `rainfall_6_month_total`
+  * `rainfall_3_month_avg`
+  * `rainfall_6_month_avg`
+
+* NDVI feature columns:
+
+  * `date`
+  * `mean_ndvi`
+  * `ndvi_1_month_mean`
+  * `ndvi_3_month_mean`
+  * `ndvi_6_month_mean`
+  * `ndvi_anomaly`
+
+A correlation summary file was also created:
+
+`02_data/processed/phase3_environment_correlation_summary.csv`
+
+This file summarizes the strongest relationships between environmental indicators and Phase 3+ food insecurity population percentage.
 
 ---
 
@@ -206,18 +260,38 @@ Select "Kenya" → download CSV.
 
 ---
 
-## 9. Next Steps
+## 9. Current Project Progress
 
 1. [x] **Download IPC historical data** from HDX
-2. [x] **Create first IPC cleaning notebook**
+2. [x] **Create IPC cleaning notebook**
 3. [x] **Create processed IPC county-level dataset**
-4. [ ] **Upload processed dataset and cleaning notebook to GitHub**
-5. [ ] **Create `data_dictionary.csv`** documenting the processed IPC columns
-6. [ ] **Begin EDA notebook** — first step: analyze IPC severity trends by county over time
-7. [ ] **Download Kenya county shapefile** from GADM or HDX
-8. [ ] **Register for Google Earth Engine** for CHIRPS rainfall and MODIS NDVI extraction
-9. [ ] **Download FAO FPMA price data** for Kenya
+4. [x] **Create data dictionary**
+5. [x] **Complete IPC exploratory data analysis**
+6. [x] **Download and prepare Kenya county boundaries**
+7. [x] **Use Google Earth Engine for CHIRPS rainfall extraction**
+8. [x] **Create rainfall rolling average features**
+9. [x] **Use Google Earth Engine for MODIS NDVI extraction**
+10. [x] **Create NDVI rolling averages and anomaly features**
+11. [x] **Merge IPC, rainfall, and NDVI into master dataset**
+12. [x] **Complete master dataset EDA**
+13. [x] **Create Phase 3+ environmental correlation summary**
+14. [x] **Build baseline classification model**
+15. [x] **Compare Naive Baseline, Logistic Regression, Random Forest, and XGBoost**
+16. [x] **Select XGBoost as strongest balanced baseline model**
 
 ---
 
-*This inventory will be updated as data is downloaded and quality-checked.*
+## 10. Next Steps
+
+1. [ ] **Create model prediction risk table**
+2. [ ] **Build county-level risk map or dashboard**
+3. [ ] **Compare rainfall-only, NDVI-only, and combined rainfall + NDVI models**
+4. [ ] **Add FAO FPMA cereal market price data**
+5. [ ] **Update data dictionary as new features are added**
+6. [ ] **Improve validation using future IPC periods**
+7. [ ] **Create final portfolio dashboard and project write-up**
+
+---
+
+*This inventory will be updated as new datasets, features, and model outputs are added.*
+
