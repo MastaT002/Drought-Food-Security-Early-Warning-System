@@ -1,8 +1,21 @@
 column_name,data_type,description,example
-date,date,Computer-readable IPC analysis date,2019-07-01
+ipc_date,date,Computer-readable IPC analysis date,2019-07-01
 analysis_period,text,Human-readable IPC analysis period,Jul 2019
-county,text,Cleaned county name,Baringo
+county,text,Cleaned Kenya ASAL county name,Baringo
 max_ipc_phase,integer,Highest IPC phase with population greater than zero for the county-period,4
 phase_3_plus_population,integer,Number of people in IPC Phase 3 or worse,105555
 total_population,integer,Total analyzed population for the county-period,703697
 phase_3_plus_percentage,float,Share of analyzed population in IPC Phase 3 or worse,0.15
+rainfall_date,date,Computer-readable rainfall month/date aligned to IPC analysis period,2019-06-01
+mean_rainfall_mm,float,Mean monthly rainfall in millimeters for the county-period,47.813818
+rainfall_3_month_total,float,Total rainfall over the previous 3 months,143.439
+rainfall_6_month_total,float,Total rainfall over the previous 6 months,172.724
+rainfall_3_month_avg,float,Average rainfall over the previous 3 months,47.813818
+rainfall_6_month_avg,float,Average rainfall over the previous 6 months,28.787296
+date,date,Computer-readable NDVI date aligned to IPC/rainfall period,2019-06-01
+mean_ndvi,float,Mean NDVI vegetation index for the county-period,0.645498
+ndvi_1_month_mean,float,One-month NDVI mean for the county-period,0.645498
+ndvi_3_month_mean,float,Average NDVI over the previous 3 months,0.469621
+ndvi_6_month_mean,float,Average NDVI over the previous 6 months,0.424800
+ndvi_anomaly,float,NDVI anomaly showing difference from expected vegetation condition,0.078739
+high_risk,integer,Binary modeling target where 1 means Phase 3+ percentage is 20% or higher and 0 means below 20%,1
