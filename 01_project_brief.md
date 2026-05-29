@@ -1,7 +1,9 @@
 # Project Brief: Drought & Food Security Early Warning System
 
 **Date:** May 2026
-**Analyst:** Trevor Mulundi (MastaT002)
+
+**Analyst:** Trevor Mulundi (MastaT)
+
 **Status:** Baseline Model Completed / Dashboard Stage Next
 
 ---
