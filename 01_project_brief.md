@@ -1,87 +1,263 @@
 # Project Brief: Drought & Food Security Early Warning System
 
-**Date:** May 2026  
-**Analyst:** Trevor Muinde (MastaT)
-**Status:** Draft / In Development
+**Date:** May 2026
+**Analyst:** Trevor Mulundi (MastaT002)
+**Status:** Baseline Model Completed / Dashboard Stage Next
 
 ---
 
 ## 1. Problem Statement
 
-Kenya's Arid and Semi-Arid Lands (ASALs) are experiencing an escalating food security crisis. Following poor short rains in late 2025, approximately **3.7 million people** (over 20% of the analyzed ASAL population) are projected to face IPC Phase 3 "Crisis" level food insecurity between April and June 2026 — a 32% year-on-year increase. Counties such as Wajir, Mandera, and Tana River report 40–60% of their populations in severe acute food insecurity.
+Kenya's Arid and Semi-Arid Lands (ASALs) are highly vulnerable to drought, rainfall variability, vegetation stress, and food insecurity.
 
-Humanitarian agencies and government bodies (NDMA, WFP, Kenya Red Cross) currently operate on **reactive** response models — deploying food aid and cash transfers after IPC reports confirm crisis conditions. There is no publicly available, county-level forecasting tool that predicts food insecurity severity **1–3 months in advance**, enabling pre-positioning of aid before conditions deteriorate.
+During severe drought periods, many ASAL counties experience high levels of IPC Phase 3 "Crisis" food insecurity or worse. Counties such as Turkana, Mandera, Marsabit, Wajir, Garissa, Isiolo, Samburu, Tana River, Baringo, and Kwale repeatedly appear as high-risk areas in the current analysis.
+
+Humanitarian agencies and government bodies often respond after food insecurity conditions have already been confirmed through official reports. This creates a need for earlier warning systems that can help identify counties at risk before conditions worsen.
+
+This project explores whether publicly available environmental indicators, especially rainfall and vegetation health, can help identify high-risk food insecurity cases at county level.
+
+---
 
 ## 2. Objective
 
-Build a machine learning model that forecasts **IPC food insecurity phase** (Phase 1–5) for Kenya's ASAL counties **30–90 days in advance**, using publicly available climate, vegetation, and market data.
+Build an interpretable machine learning early-warning model that classifies whether a Kenya ASAL county-period is at high risk of serious food insecurity.
+
+In the current baseline model, a county-period is classified as **high risk** if:
+
+```text
+20% or more of the county population is in IPC Phase 3 or worse
+```
+
+The model uses publicly available environmental indicators, including:
+
+* CHIRPS rainfall data
+* MODIS NDVI vegetation health data
+* IPC food insecurity outcomes
+
+The current model focuses on **high-risk classification**, not exact IPC Phase 1–5 prediction. Predicting exact IPC phase can be explored in a later version of the project.
+
+---
 
 ## 3. Success Criteria
 
-| # | Criterion | Target | Measurement |
-|---|---|---|---|
-| 1 | **Crisis Detection Accuracy** | >70% precision/recall for Phase 3+ | Confusion matrix on holdout test set |
-| 2 | **Interpretability** | Stakeholders can identify top 3 drivers per county | SHAP values / feature importance report |
-| 3 | **Actionable Output** | Non-technical users can consume forecasts | Interactive risk map + summary table (not raw CSV) |
-| 4 | **Reproducibility** | Another analyst can rerun the pipeline | Documented code, pinned dependencies, data dictionary |
+| # | Criterion                    | Target                                                           | Current Status                                                           |
+| - | ---------------------------- | ---------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| 1 | **High-Risk Classification** | Build a model that predicts whether a county-period is high risk | ✅ Completed                                                              |
+| 2 | **Crisis Detection Recall**  | Identify most true high-risk cases                               | ✅ XGBoost detected 14 out of 16 high-risk test cases                     |
+| 3 | **Model Comparison**         | Compare multiple baseline models                                 | ✅ Naive Baseline, Logistic Regression, Random Forest, and XGBoost tested |
+| 4 | **Interpretability**         | Identify important predictors                                    | ✅ XGBoost feature importance created                                     |
+| 5 | **Actionable Output**        | Produce a county-level risk table/map                            | ⬜ Next stage                                                             |
+| 6 | **Reproducibility**          | Documented notebooks and processed datasets                      | ✅ In progress                                                            |
+
+---
 
 ## 4. Scope Boundaries
 
-**In Scope:**
-- 23 ASAL counties (not all 47 Kenyan counties)
-- Forecast horizon: 1–3 months (30–90 days)
-- Target variable: IPC Acute Food Insecurity Phase (1–5 scale)
-- Predictor categories: rainfall, vegetation health, cereal prices, livestock conditions
-- Data sources: Public / open-access only
+### In Scope
 
-**Out of Scope:**
-- Conflict-driven displacement (Somalia border, pastoral clashes) — data is sparse and politically sensitive
-- Long-term climate projections (>6 months)
-- Individual household-level predictions (county-level aggregation only)
-- Real-time satellite imagery processing (use pre-computed NDVI/rainfall indices)
+* Kenya ASAL counties
+* County-level food insecurity analysis
+* Target variable: high-risk classification based on Phase 3+ population percentage
+* Current high-risk threshold: `phase_3_plus_percentage >= 0.20`
+* Predictor categories currently included:
+
+  * Rainfall indicators
+  * NDVI vegetation indicators
+* Public and open-access data sources
+* Baseline machine learning model comparison
+* Interpretable model outputs such as feature importance and confusion matrix
+
+### Out of Scope for Current Version
+
+* Exact IPC Phase 1–5 forecasting
+* Household-level food insecurity prediction
+* Real-time production deployment
+* Conflict-driven displacement modeling
+* Long-term climate projections beyond the food security early-warning window
+* Full humanitarian decision automation
+* Food price and market indicators, which are planned for a later stage
+
+---
 
 ## 5. Stakeholders
 
-| Stakeholder | Role | How They Use This |
-|---|---|---|
-| **NDMA** (National Drought Management Authority) | Government coordination | County-level resource allocation and early response activation |
-| **WFP Kenya** | Humanitarian food assistance | Pre-positioning food stocks and cash transfer programs |
-| **Kenya Red Cross** | Emergency response | Triggering rapid response protocols before peak crisis |
-| **County Drought Management Officers** | Local implementation | Justifying budget requests and mobilizing community resources |
+| Stakeholder                            | Role                            | How They Could Use This                                               |
+| -------------------------------------- | ------------------------------- | --------------------------------------------------------------------- |
+| **NDMA**                               | Government drought coordination | County-level drought and food security risk monitoring                |
+| **WFP Kenya**                          | Humanitarian food assistance    | Pre-positioning food support and cash transfer planning               |
+| **Kenya Red Cross**                    | Emergency response              | Earlier identification of counties requiring closer monitoring        |
+| **County Drought Management Officers** | Local implementation            | Supporting evidence-based county risk reporting                       |
+| **Data Analysts / Researchers**        | Analysis and modeling           | Reproducing the workflow and improving the model with additional data |
 
-## 6. Assumptions & Risks
+---
+
+## 6. Data Sources
+
+| Dataset                   | Source                                 | Current Use                                 |
+| ------------------------- | -------------------------------------- | ------------------------------------------- |
+| IPC Acute Food Insecurity | FEWS NET / HDX                         | Food insecurity outcome and Phase 3+ burden |
+| CHIRPS Rainfall           | UCSB Climate Hazards Center            | Rainfall indicators and rolling averages    |
+| MODIS NDVI                | NASA/USGS via Google Earth Engine      | Vegetation health indicators and anomalies  |
+| Kenya County Boundaries   | Public administrative boundaries / HDX | County-level spatial aggregation            |
+| Cereal Market Prices      | FAO FPMA or other public sources       | Planned future predictor                    |
+
+---
+
+## 7. Assumptions & Risks
 
 ### Assumptions
-- Historical IPC phase classifications are accurate and consistently applied across counties
-- CHIRPS rainfall data and MODIS NDVI are reliable proxies for local agricultural conditions
-- Market price data from FAO FPMA reflects actual transaction prices in ASAL wholesale markets
+
+* IPC food insecurity records are sufficiently reliable for county-level analysis.
+* CHIRPS rainfall data is a useful proxy for rainfall conditions in ASAL counties.
+* MODIS NDVI is a useful proxy for vegetation health and land response.
+* Rainfall and NDVI indicators contain useful early-warning signals for food insecurity risk.
+* A 20% Phase 3+ population threshold is a reasonable starting point for defining widespread food insecurity risk.
 
 ### Risks
-- **Data sparsity:** Some ASAL counties have limited historical IPC reporting (3–5 years vs. 10+ ideal)
-- **Measurement error:** Satellite rainfall estimates have 10–15% error in arid regions with sparse ground stations
-- **Confounding variables:** Food insecurity driven by conflict or market shocks (e.g., Middle East fertilizer disruption) may not be captured by climate/vegetation data alone
-- **Model drift:** Climate patterns are shifting; a model trained on 2015–2023 data may degrade in accuracy for 2026–2027 forecasts
 
-## 7. Deliverables
+* **Small dataset size:** The current modeling dataset has limited records, so model results should be validated further.
+* **Class imbalance:** High-risk cases are fewer than non-high-risk cases, so recall, precision, F1-score, and ROC-AUC are more useful than accuracy alone.
+* **Confounding variables:** Food insecurity may also be influenced by food prices, livestock conditions, conflict, income, market access, disease outbreaks, and humanitarian support.
+* **Satellite data limitations:** Rainfall and NDVI estimates may not fully capture local ground conditions.
+* **Model drift:** Environmental and socioeconomic patterns may change over time, reducing future model performance.
+* **Correlation vs causation:** The analysis shows predictive signals and associations, not proof that rainfall or NDVI alone cause food insecurity.
 
-1. `01_project_brief.md` — This document
-2. `02_data_inventory.md` — Catalog of all data sources with quality assessment
-3. `03_notebooks/01_eda.ipynb` — Exploratory data analysis
-4. `03_notebooks/02_feature_engineering.ipynb` — Predictor construction
-5. `03_notebooks/03_modeling.ipynb` — Model training, validation, and evaluation
-6. `04_dashboard/` — Interactive risk map and forecast table
-7. `data_dictionary.csv` — Column-level documentation for all datasets
+---
 
-## 8. Timeline (Estimated)
+## 8. Baseline Modeling Summary
 
-| Phase | Duration | Target Completion |
-|---|---|---|
-| Data Discovery & Inventory | 3–5 days | Week 1 |
-| Data Cleaning & EDA | 5–7 days | Week 2 |
-| Feature Engineering | 3–4 days | Week 3 |
-| Modeling & Validation | 5–7 days | Week 3–4 |
-| Dashboard & Documentation | 3–4 days | Week 4 |
-| Portfolio Write-up (LinkedIn) | 1 day | Week 4 |
+A baseline machine learning notebook was completed using the final master dataset.
+
+The model target was:
+
+```text
+high_risk = 1 if phase_3_plus_percentage >= 0.20
+high_risk = 0 otherwise
+```
+
+A time-aware train-test split was used. Earlier records were used for training, while later records were used for testing.
+
+### Models Compared
+
+* Naive Baseline
+* Logistic Regression
+* Standardized Logistic Regression
+* Random Forest Classifier
+* XGBoost Classifier
+
+### Model Results
+
+| Model                            | Accuracy | Precision | Recall | F1-score | ROC-AUC |
+| -------------------------------- | -------: | --------: | -----: | -------: | ------: |
+| Naive Baseline                   |   0.7538 |    0.0000 | 0.0000 |   0.0000 |  0.5000 |
+| Logistic Regression              |   0.7692 |    0.5172 | 0.9375 |   0.6667 |  0.9171 |
+| Standardized Logistic Regression |   0.7692 |    0.5172 | 0.9375 |   0.6667 |  0.9298 |
+| Random Forest                    |   0.8769 |    0.7222 | 0.8125 |   0.7647 |  0.9286 |
+| XGBoost                          |   0.8769 |    0.7000 | 0.8750 |   0.7778 |  0.9362 |
+
+### Selected Baseline Model
+
+XGBoost was selected as the strongest balanced baseline model.
+
+It achieved:
+
+* Strong recall
+* Highest F1-score
+* Highest ROC-AUC
+* Better balance between catching high-risk cases and reducing false alarms
+
+The XGBoost confusion matrix showed:
+
+* 43 correctly predicted non-high-risk cases
+* 14 correctly predicted high-risk cases
+* 6 false alarms
+* 2 missed high-risk cases
+
+This means the model correctly identified **14 out of 16 high-risk cases** in the test set.
+
+### Important Predictors
+
+XGBoost feature importance showed that longer-term vegetation and rainfall indicators were most useful.
+
+Top features included:
+
+* `ndvi_6_month_mean`
+* `rainfall_6_month_total`
+* `ndvi_3_month_mean`
+* `rainfall_6_month_avg`
+
+This suggests that medium-term vegetation health and rainfall conditions contain useful signals for food insecurity risk classification.
+
+---
+
+## 9. Deliverables
+
+| Deliverable                                            | Description                                    | Status               |
+| ------------------------------------------------------ | ---------------------------------------------- | -------------------- |
+| `01_project_brief.md`                                  | Project scope, objective, and progress summary | ✅ Updated            |
+| `02_data_inventory.md`                                 | Data source inventory and quality notes        | ✅ Created            |
+| `data_dictionary.csv`                                  | Column-level documentation                     | ✅ Created / Updating |
+| `03_notebooks/01_ipc_data_cleaning.ipynb`              | IPC data cleaning                              | ✅ Completed          |
+| `03_notebooks/02_ipc_eda.ipynb`                        | Initial IPC exploratory analysis               | ✅ Completed          |
+| `03_notebooks/03_county_boundaries_check.ipynb`        | County boundary validation                     | ✅ Completed          |
+| `03_notebooks/03_rainfall_data_collection.ipynb`       | Rainfall data collection and processing        | ✅ Completed          |
+| `03_notebooks/04_ipc_rainfall_merge.ipynb`             | IPC and rainfall merge                         | ✅ Completed          |
+| `03_notebooks/05_ipc_rainfall_analysis.ipynb`          | Rainfall and IPC analysis                      | ✅ Completed          |
+| `03_notebooks/06_ndvi_data_collection_modis_gee.ipynb` | NDVI extraction using Google Earth Engine      | ✅ Completed          |
+| `03_notebooks/07_ipc_rainfall_ndvi_merge.ipynb`        | IPC + rainfall + NDVI merge                    | ✅ Completed          |
+| `03_notebooks/08_master_dataset_eda.ipynb`             | Master dataset EDA                             | ✅ Completed          |
+| `03_notebooks/09_baseline_model.ipynb`                 | Baseline machine learning model                | ✅ Completed          |
+| `04_dashboard/`                                        | Risk table, map, or dashboard                  | ⬜ Next stage         |
+
+---
+
+## 10. Current Project Status
+
+✅ Project brief completed
+✅ IPC data cleaned and explored
+✅ CHIRPS rainfall features created
+✅ MODIS NDVI features created
+✅ IPC + rainfall + NDVI master dataset created
+✅ Master dataset EDA completed
+✅ Correlation analysis completed
+✅ High-risk classification target created
+✅ Time-aware train-test split completed
+✅ Baseline models trained and evaluated
+✅ XGBoost selected as strongest balanced baseline model
+
+**Current stage:** Baseline machine learning model completed.
+
+**Next stage:** Build an actionable output layer, such as a county-level risk table, map, or dashboard.
+
+---
+
+## 11. Next Research Direction
+
+Future improvements can include:
+
+1. Creating a model prediction risk table.
+2. Building a county-level risk map or dashboard.
+3. Comparing rainfall-only, NDVI-only, and combined rainfall + NDVI models.
+4. Adding cereal market price indicators.
+5. Adding livestock and market access indicators.
+6. Tuning XGBoost and Random Forest parameters.
+7. Testing model performance on future IPC periods.
+8. Exploring exact IPC phase prediction as a later modeling task.
+
+---
+
+## 12. Timeline Status
+
+| Phase                        | Status      |
+| ---------------------------- | ----------- |
+| Data Discovery & Inventory   | ✅ Completed |
+| IPC Cleaning & EDA           | ✅ Completed |
+| Rainfall Feature Engineering | ✅ Completed |
+| NDVI Feature Engineering     | ✅ Completed |
+| Master Dataset EDA           | ✅ Completed |
+| Baseline Modeling            | ✅ Completed |
+| Dashboard / Risk Map         | ⬜ Next      |
+| Additional Predictors        | ⬜ Planned   |
 
 ---
 
