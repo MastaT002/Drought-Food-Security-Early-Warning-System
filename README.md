@@ -1,14 +1,16 @@
-# Drought & Food Security Early Warning System
+# **Drought & Food Security Early Warning System**
 
 A data analytics and machine learning portfolio project focused on building an early-warning system for food insecurity risk across Kenya's Arid and Semi-Arid Lands (ASAL).
 
 **Data sources:** IPC food insecurity outcomes, CHIRPS rainfall data, and MODIS NDVI vegetation indicators.
 
-**Current stage:** Baseline machine learning model completed and interactive Streamlit risk dashboard prototype created. 
+**Current stage:** Baseline machine learning model completed and interactive Streamlit risk dashboard deployed.
 
-**Latest model result:** XGBoost was selected as the strongest balanced baseline model based on recall, F1-score, and ROC-AUC. 
+**Latest model result:** XGBoost was selected as the strongest balanced baseline model based on recall, F1-score, and ROC-AUC.
 
-**Dashboard output:** A county-level prediction risk table and interactive map dashboard were created using the selected XGBoost model. 
+**Dashboard output:** A county-level prediction risk table and interactive map dashboard were created using the selected XGBoost model.
+
+**Live dashboard:** [Kenya Drought & Food Security Risk Dashboard](https://drought-food-security-early-warning-system-kenya.streamlit.app/)
 
 **Next stage:** Improve the dashboard, compare rainfall-only vs NDVI-only vs combined models, and test additional predictors such as food prices, market indicators, and longer time-lag features.
 
@@ -192,43 +194,48 @@ Drought-Food-Security-Early-Warning-System/
 
 ## Project Status
 
-✅ Project brief completed
-✅ IPC raw dataset uploaded
-✅ IPC data inventory documented
-✅ IPC data cleaning completed
-✅ Modeling-ready IPC dataset created
-✅ Initial IPC EDA completed
-✅ Kenya ASAL county boundary check completed
-✅ CHIRPS rainfall data collected and processed
-✅ IPC + rainfall dataset merged
-✅ Initial rainfall and IPC relationship analysis completed
-✅ MODIS NDVI data collected using Google Earth Engine
-✅ NDVI rolling averages and anomaly features created
-✅ IPC + rainfall + NDVI master dataset created
-✅ Master dataset EDA completed
-✅ Correlation analysis completed
-✅ Baseline classification target created
-✅ Time-aware train-test split completed
-✅ Naive baseline tested
-✅ Logistic Regression model trained and evaluated
-✅ Standardized Logistic Regression model trained and evaluated
-✅ Random Forest model trained and evaluated
-✅ XGBoost model trained and evaluated
-✅ Model comparison completed
-✅ XGBoost selected as strongest balanced baseline model
-✅ Model prediction risk table created 
-✅ Streamlit dashboard prototype created 
-✅ County-level risk map/dashboard prototype started
+* ✅ Project brief completed
+* ✅ IPC raw dataset uploaded
+* ✅ IPC data inventory documented
+* ✅ IPC data cleaning completed
+* ✅ Modeling-ready IPC dataset created
+* ✅ Initial IPC EDA completed
+* ✅ Kenya ASAL county boundary check completed
+* ✅ CHIRPS rainfall data collected and processed
+* ✅ IPC + rainfall dataset merged
+* ✅ Initial rainfall and IPC relationship analysis completed
+* ✅ MODIS NDVI data collected using Google Earth Engine
+* ✅ NDVI rolling averages and anomaly features created
+* ✅ IPC + rainfall + NDVI master dataset created
+* ✅ Master dataset EDA completed
+* ✅ Correlation analysis completed
+* ✅ Baseline classification target created
+* ✅ Time-aware train-test split completed
+* ✅ Naive baseline tested
+* ✅ Logistic Regression model trained and evaluated
+* ✅ Standardized Logistic Regression model trained and evaluated
+* ✅ Random Forest model trained and evaluated
+* ✅ XGBoost model trained and evaluated
+* ✅ Model comparison completed
+* ✅ XGBoost selected as strongest balanced baseline model
+* ✅ Model prediction risk table created
+* ✅ Streamlit dashboard prototype created
+* ✅ County-level risk map/dashboard prototype created
+* ✅ Streamlit dashboard deployed publicly
 
-**Current stage:** Baseline model completed and dashboard prototype created.
+**Current stage:** Baseline model completed, county-level prediction risk table created, and Streamlit dashboard deployed.
+
+**Live dashboard:** [Kenya Drought & Food Security Risk Dashboard](https://drought-food-security-early-warning-system-kenya.streamlit.app/)
 
 **Next stage:**
 
-✅ Create model prediction risk table 
-✅ Build county-level risk map/dashboard prototype
-⬜ Compare rainfall-only, NDVI-only, and combined rainfall + NDVI models
-⬜ Add food price or market data as an additional predictor
-⬜ Improve model validation across future IPC periods
+* ✅ Create model prediction risk table
+* ✅ Build county-level risk map/dashboard prototype
+* ✅ Deploy dashboard publicly using Streamlit Community Cloud
+* ⬜ Compare rainfall-only, NDVI-only, and combined rainfall + NDVI models
+* ⬜ Add food price or market data as an additional predictor
+* ⬜ Improve model validation across future IPC periods
+* ⬜ Improve dashboard design, filters, map styling, and stakeholder explanations
 
 ---
 
