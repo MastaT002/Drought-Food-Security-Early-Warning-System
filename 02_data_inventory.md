@@ -340,7 +340,7 @@ The dashboard is a prototype portfolio output and should not be used as a produc
 14. [x] **Build baseline classification model**
 15. [x] **Compare Naive Baseline, Logistic Regression, Random Forest, and XGBoost**
 16. [x] **Select XGBoost as strongest balanced baseline model**
-17. 17. [x] **Create model prediction risk table**
+17. [x] **Create model prediction risk table**
 18. [x] **Build Streamlit county-level risk dashboard**
 19. [x] **Create interactive county risk map**
 20. [x] **Deploy dashboard publicly using Streamlit Community Cloud**
