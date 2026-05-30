@@ -2,7 +2,7 @@
 
 **Project:** Drought & Food Security Early Warning System  
 **Date:** May 2026  
-**Status:** IPC, CHIRPS rainfall, MODIS NDVI, master dataset EDA, and baseline modeling completed
+**Status:** IPC, CHIRPS rainfall, MODIS NDVI, master dataset EDA, baseline modeling, prediction risk table, and Streamlit dashboard completed
 ---
 
 ### IPC Acute Food Insecurity Phase Classifications
@@ -132,6 +132,36 @@ A correlation summary file was also created:
 
 This file summarizes the strongest relationships between environmental indicators and Phase 3+ food insecurity population percentage.
 
+A model prediction risk table was also created:
+
+`02_data/processed/model_prediction_risk_table.csv`
+
+Final shape:
+
+* 65 rows
+* 12 columns
+
+This file contains county-level model predictions for the test period. It includes actual risk status, predicted risk status, predicted risk probability, and dashboard-friendly risk labels.
+
+Main output columns include:
+
+* `ipc_date`
+* `analysis_period`
+* `county`
+* `actual_high_risk`
+* `predicted_high_risk`
+* `predicted_risk_probability`
+* `predicted_risk_probability_pct`
+* `risk_level`
+
+The `risk_level` column groups county-periods into:
+
+* `Low Risk`
+* `Moderate Risk`
+* `High Risk`
+
+This file is used as the main input for the Streamlit dashboard.
+
 ---
 
 ## 2. Climate Predictors
@@ -259,8 +289,40 @@ Select "Kenya" → download CSV.
 | **Different date formats across sources** | Merge errors | Standardize all dates to `YYYY-MM-01` (monthly) or `YYYY-QX` (quarterly) |
 
 ---
+## 9. Dashboard Output
 
-## 9. Current Project Progress
+A Streamlit dashboard was created to display county-level food insecurity risk predictions.
+
+**Dashboard folder:**
+`04_dashboard/`
+
+Main files:
+
+* `04_dashboard/app.py`
+* `04_dashboard/requirements.txt`
+* `04_dashboard/README.md`
+
+The dashboard uses:
+
+* `02_data/processed/model_prediction_risk_table.csv`
+* `02_data/processed/kenya_target_counties.geojson`
+
+Dashboard features include:
+
+* Analysis period filter
+* Risk level filter
+* County-level risk map
+* Risk summary cards
+* High-risk county table
+* Risk level distribution chart
+
+**Live dashboard:**
+[Kenya Drought & Food Security Risk Dashboard](https://drought-food-security-early-warning-system-kenya.streamlit.app/)
+
+The dashboard is a prototype portfolio output and should not be used as a production humanitarian decision system without further validation.
+
+---
+## 10. Current Project Progress
 
 1. [x] **Download IPC historical data** from HDX
 2. [x] **Create IPC cleaning notebook**
@@ -278,18 +340,24 @@ Select "Kenya" → download CSV.
 14. [x] **Build baseline classification model**
 15. [x] **Compare Naive Baseline, Logistic Regression, Random Forest, and XGBoost**
 16. [x] **Select XGBoost as strongest balanced baseline model**
+17. 17. [x] **Create model prediction risk table**
+18. [x] **Build Streamlit county-level risk dashboard**
+19. [x] **Create interactive county risk map**
+20. [x] **Deploy dashboard publicly using Streamlit Community Cloud**
 
 ---
 
-## 10. Next Steps
+## 11. Next Steps
 
-1. [ ] **Create model prediction risk table**
-2. [ ] **Build county-level risk map or dashboard**
-3. [ ] **Compare rainfall-only, NDVI-only, and combined rainfall + NDVI models**
-4. [ ] **Add FAO FPMA cereal market price data**
-5. [ ] **Update data dictionary as new features are added**
-6. [ ] **Improve validation using future IPC periods**
-7. [ ] **Create final portfolio dashboard and project write-up**
+1. [x] **Create model prediction risk table**
+2. [x] **Build county-level risk map or dashboard**
+3. [x] **Deploy Streamlit dashboard publicly**
+4. [ ] **Compare rainfall-only, NDVI-only, and combined rainfall + NDVI models**
+5. [ ] **Add FAO FPMA cereal market price data**
+6. [ ] **Update data dictionary as new features are added**
+7. [ ] **Improve validation using future IPC periods**
+8. [ ] **Expand dashboard to include full historical periods and future prediction outputs**
+9. [ ] **Improve dashboard design, filters, map styling, and stakeholder explanations**
 
 ---
 
