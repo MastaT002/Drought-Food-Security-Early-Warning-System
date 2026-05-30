@@ -4,7 +4,9 @@
 
 **Analyst:** Trevor Mulundi (MastaT)
 
-**Status:** Baseline Model Completed / Dashboard Stage Next
+**Status:** Baseline Model Completed / Risk Dashboard Deployed
+
+**Live dashboard:** [Kenya Drought & Food Security Risk Dashboard](https://drought-food-security-early-warning-system-kenya.streamlit.app/)
 
 ---
 
@@ -48,7 +50,7 @@ The current model focuses on **high-risk classification**, not exact IPC Phase 1
 | 2 | **Crisis Detection Recall**  | Identify most true high-risk cases                               | ✅ XGBoost detected 14 out of 16 high-risk test cases                     |
 | 3 | **Model Comparison**         | Compare multiple baseline models                                 | ✅ Naive Baseline, Logistic Regression, Random Forest, and XGBoost tested |
 | 4 | **Interpretability**         | Identify important predictors                                    | ✅ XGBoost feature importance created                                     |
-| 5 | **Actionable Output**        | Produce a county-level risk table/map                            | ⬜ Next stage                                                             |
+| 5 | **Actionable Output**        | Produce a county-level risk table/map                            | ✅ Completed — risk table and Streamlit dashboard created                 |                                                      |
 | 6 | **Reproducibility**          | Documented notebooks and processed datasets                      | ✅ In progress                                                            |
 
 ---
@@ -209,7 +211,8 @@ This suggests that medium-term vegetation health and rainfall conditions contain
 | `03_notebooks/07_ipc_rainfall_ndvi_merge.ipynb`        | IPC + rainfall + NDVI merge                    | ✅ Completed          |
 | `03_notebooks/08_master_dataset_eda.ipynb`             | Master dataset EDA                             | ✅ Completed          |
 | `03_notebooks/09_baseline_model.ipynb`                 | Baseline machine learning model                | ✅ Completed          |
-| `04_dashboard/`                                        | Risk table, map, or dashboard                  | ⬜ Next stage         |
+| `03_notebooks/10_model_prediction_risk_table.ipynb`    | County-level prediction risk table             | ✅ Completed          |
+| `04_dashboard/`                                        | Streamlit risk dashboard and county-level map  | ✅ Created / Deployed |
 
 ---
 
@@ -225,11 +228,15 @@ This suggests that medium-term vegetation health and rainfall conditions contain
 ✅ High-risk classification target created
 ✅ Time-aware train-test split completed
 ✅ Baseline models trained and evaluated
-✅ XGBoost selected as strongest balanced baseline model
+✅ XGBoost selected as strongest balanced baseline model  
+✅ Model prediction risk table created  
+✅ Streamlit risk dashboard prototype created  
+✅ County-level risk map created  
+✅ Dashboard deployed publicly using Streamlit Community Cloud  
 
-**Current stage:** Baseline machine learning model completed.
+**Current stage:** Baseline model completed, prediction risk table created, and Streamlit dashboard deployed.
 
-**Next stage:** Build an actionable output layer, such as a county-level risk table, map, or dashboard.
+**Next stage:** Improve the dashboard design, compare rainfall-only vs NDVI-only vs combined models, and test additional predictors such as food prices and market indicators.
 
 ---
 
@@ -237,8 +244,8 @@ This suggests that medium-term vegetation health and rainfall conditions contain
 
 Future improvements can include:
 
-1. Creating a model prediction risk table.
-2. Building a county-level risk map or dashboard.
+1. Improving the Streamlit dashboard design, filters, map styling, and stakeholder explanations.
+2. Expanding the dashboard to include full historical risk periods and future prediction outputs.
 3. Comparing rainfall-only, NDVI-only, and combined rainfall + NDVI models.
 4. Adding cereal market price indicators.
 5. Adding livestock and market access indicators.
@@ -258,7 +265,7 @@ Future improvements can include:
 | NDVI Feature Engineering     | ✅ Completed |
 | Master Dataset EDA           | ✅ Completed |
 | Baseline Modeling            | ✅ Completed |
-| Dashboard / Risk Map         | ⬜ Next      |
+| Dashboard / Risk Map         | ✅ Prototype deployed |
 | Additional Predictors        | ⬜ Planned   |
 
 ---
