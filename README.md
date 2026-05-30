@@ -123,8 +123,8 @@ These results suggest that medium-term vegetation health and rainfall patterns c
 * [x] Compare baseline machine learning models
 * [x] Identify important rainfall and NDVI predictors
 * [ ] Compare rainfall-only, NDVI-only, and combined rainfall + NDVI models
-* [ ] Output must be interpretable — stakeholders can see why a county is flagged
-* [ ] Deliver a simple risk map + table, not a raw CSV
+* [x] Output must be interpretable — stakeholders can see why a county is flagged
+* [x] Deliver a simple risk map + table, not a raw CSV
 
 ---
 
@@ -147,7 +147,7 @@ These results suggest that medium-term vegetation health and rainfall patterns c
 * **Model Evaluation:** accuracy, precision, recall, F1-score, ROC-AUC, confusion matrix
 * **Geospatial / Remote Sensing:** Google Earth Engine, MODIS NDVI, CHIRPS rainfall, GeoJSON county boundaries
 * **Notebook Environment:** JupyterLab, Google Colab
-* **Planned Dashboard / Visualization:** Streamlit, Power BI, Plotly, or geospatial risk maps
+* **Dashboard / Visualization:** Streamlit, Plotly, GeoJSON county boundaries, interactive risk map
 
 ---
 
@@ -262,8 +262,8 @@ Future improvements can include:
 3. Testing rainfall-only, NDVI-only, and combined feature models.
 4. Tuning XGBoost and Random Forest parameters.
 5. Testing the model on future IPC periods.
-6. Creating a county-level risk dashboard.
-7. Building an interactive map showing predicted high-risk counties.
+6. Improving the Streamlit dashboard design, filters, and stakeholder explanations.
+7. Expanding the dashboard to include full historical risk periods and future prediction outputs.
 
 ---
 
