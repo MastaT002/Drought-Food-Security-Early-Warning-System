@@ -4,11 +4,13 @@ A data analytics and machine learning portfolio project focused on building an e
 
 **Data sources:** IPC food insecurity outcomes, CHIRPS rainfall data, and MODIS NDVI vegetation indicators.
 
-**Current stage:** Baseline machine learning model completed using rainfall and NDVI indicators.
+**Current stage:** Baseline machine learning model completed and interactive Streamlit risk dashboard prototype created. 
 
-**Latest model result:** XGBoost was selected as the strongest balanced baseline model based on recall, F1-score, and ROC-AUC.
+**Latest model result:** XGBoost was selected as the strongest balanced baseline model based on recall, F1-score, and ROC-AUC. 
 
-**Next stage:** Create a county-level risk table/map dashboard and test additional predictors such as food prices, market indicators, and longer time-lag features.
+**Dashboard output:** A county-level prediction risk table and interactive map dashboard were created using the selected XGBoost model. 
+
+**Next stage:** Improve the dashboard, compare rainfall-only vs NDVI-only vs combined models, and test additional predictors such as food prices, market indicators, and longer time-lag features.
 
 ---
 
@@ -162,7 +164,9 @@ Drought-Food-Security-Early-Warning-System/
 │       ├── ipc_rainfall_modeling_dataset.csv
 │       ├── Kenya_ASAL_NDVI_Clean_2019_2026.csv
 │       ├── ipc_rainfall_ndvi_master_dataset.csv
-│       └── phase3_environment_correlation_summary.csv
+│       ├── phase3_environment_correlation_summary.csv
+│       ├── model_prediction_risk_table.csv
+│       └── kenya_target_counties.geojson
 ├── 03_notebooks/
 │   ├── 01_ipc_data_cleaning.ipynb
 │   ├── 02_ipc_eda.ipynb
@@ -175,6 +179,9 @@ Drought-Food-Security-Early-Warning-System/
 │   ├── 08_master_dataset_eda.ipynb
 │   └── 09_baseline_model.ipynb
 ├── 04_dashboard/
+│   ├── app.py
+│   ├── README.md
+│   └── requirements.txt
 ├── 02_data_inventory.md
 ├── data_dictionary.csv
 ├── README.md
@@ -209,13 +216,16 @@ Drought-Food-Security-Early-Warning-System/
 ✅ XGBoost model trained and evaluated
 ✅ Model comparison completed
 ✅ XGBoost selected as strongest balanced baseline model
+✅ Model prediction risk table created 
+✅ Streamlit dashboard prototype created 
+✅ County-level risk map/dashboard prototype started
 
-**Current stage:** Baseline machine learning model completed.
+**Current stage:** Baseline model completed and dashboard prototype created.
 
 **Next stage:**
 
-⬜ Create model prediction risk table
-⬜ Build county-level risk map or dashboard
+✅ Create model prediction risk table 
+✅ Build county-level risk map/dashboard prototype
 ⬜ Compare rainfall-only, NDVI-only, and combined rainfall + NDVI models
 ⬜ Add food price or market data as an additional predictor
 ⬜ Improve model validation across future IPC periods
