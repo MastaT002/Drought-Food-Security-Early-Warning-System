@@ -2,7 +2,7 @@
 
 **Project:** Drought & Food Security Early Warning System  
 **Date:** May 2026  
-**Status:** IPC, CHIRPS rainfall, MODIS NDVI, master dataset EDA, baseline modeling, prediction risk table, and Streamlit dashboard completed
+**Status:** IPC, CHIRPS rainfall, MODIS NDVI, master dataset EDA, baseline modeling, prediction risk table, Streamlit dashboard, and feature group comparison completed
 ---
 
 ### IPC Acute Food Insecurity Phase Classifications
@@ -161,6 +161,20 @@ The `risk_level` column groups county-periods into:
 * `High Risk`
 
 This file is used as the main input for the Streamlit dashboard.
+
+A feature group model comparison file was also created:
+
+`02_data/processed/feature_group_model_comparison.csv`
+
+This file compares model performance across three environmental feature groups:
+
+* Rainfall-only features
+* NDVI-only features
+* Combined rainfall + NDVI features
+
+The comparison showed that rainfall-only features provided useful signal but had the weakest performance. NDVI-only features performed much better, while the combined rainfall + NDVI model produced the strongest overall performance.
+
+The main takeaway is that NDVI vegetation indicators are stronger than rainfall indicators alone, but combining rainfall and NDVI gives the best early-warning performance.
 
 ---
 
@@ -344,6 +358,8 @@ The dashboard is a prototype portfolio output and should not be used as a produc
 18. [x] **Build Streamlit county-level risk dashboard**
 19. [x] **Create interactive county risk map**
 20. [x] **Deploy dashboard publicly using Streamlit Community Cloud**
+21. [x] **Compare rainfall-only, NDVI-only, and combined rainfall + NDVI models**
+22. [x] **Create feature group model comparison output**
 
 ---
 
@@ -352,7 +368,7 @@ The dashboard is a prototype portfolio output and should not be used as a produc
 1. [x] **Create model prediction risk table**
 2. [x] **Build county-level risk map or dashboard**
 3. [x] **Deploy Streamlit dashboard publicly**
-4. [ ] **Compare rainfall-only, NDVI-only, and combined rainfall + NDVI models**
+4. [x] **Compare rainfall-only, NDVI-only, and combined rainfall + NDVI models**
 5. [ ] **Add FAO FPMA cereal market price data**
 6. [ ] **Update data dictionary as new features are added**
 7. [ ] **Improve validation using future IPC periods**
