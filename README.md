@@ -12,7 +12,7 @@ A data analytics and machine learning portfolio project focused on building an e
 
 **Live dashboard:** [Kenya Drought & Food Security Risk Dashboard](https://drought-food-security-early-warning-system-kenya.streamlit.app/)
 
-**Next stage:** Improve the dashboard, compare rainfall-only vs NDVI-only vs combined models, and test additional predictors such as food prices, market indicators, and longer time-lag features.
+**Next stage:** Improve the dashboard, add food price or market indicators, test longer time-lag features, and improve validation across future IPC periods.
 
 ---
 
@@ -114,6 +114,17 @@ The most important features were:
 
 These results suggest that medium-term vegetation health and rainfall patterns contain useful signals for identifying food insecurity risk.
 
+### Feature Group Comparison
+
+A separate feature group comparison was completed to test whether rainfall-only, NDVI-only, or combined rainfall + NDVI features produced the strongest model performance.
+
+The comparison showed that:
+
+* Rainfall-only features provided useful signal but had the weakest performance.
+* NDVI-only features performed much better than rainfall-only features.
+* The combined rainfall + NDVI model achieved the strongest overall performance.
+
+The key takeaway is that NDVI vegetation indicators are stronger than rainfall indicators alone, but combining rainfall and NDVI gives the best early-warning performance.
 ---
 
 ## Success Criteria
@@ -122,7 +133,7 @@ These results suggest that medium-term vegetation health and rainfall patterns c
 * [x] Evaluate performance using accuracy, precision, recall, F1-score, ROC-AUC, and confusion matrix
 * [x] Compare baseline machine learning models
 * [x] Identify important rainfall and NDVI predictors
-* [ ] Compare rainfall-only, NDVI-only, and combined rainfall + NDVI models
+* [x] Compare rainfall-only, NDVI-only, and combined rainfall + NDVI models
 * [x] Output must be interpretable — stakeholders can see why a county is flagged
 * [x] Deliver a simple risk map + table, not a raw CSV
 
@@ -167,6 +178,7 @@ Drought-Food-Security-Early-Warning-System/
 │       ├── Kenya_ASAL_NDVI_Clean_2019_2026.csv
 │       ├── ipc_rainfall_ndvi_master_dataset.csv
 │       ├── phase3_environment_correlation_summary.csv
+│       ├── feature_group_model_comparison.csv
 │       ├── model_prediction_risk_table.csv
 │       └── kenya_target_counties.geojson
 ├── 03_notebooks/
@@ -179,7 +191,9 @@ Drought-Food-Security-Early-Warning-System/
 │   ├── 06_ndvi_data_collection_modis_gee.ipynb
 │   ├── 07_ipc_rainfall_ndvi_merge.ipynb
 │   ├── 08_master_dataset_eda.ipynb
-│   └── 09_baseline_model.ipynb
+│   ├── 09_baseline_model.ipynb
+│   ├── 10_model_prediction_risk_table.ipynb
+│   └── 11_feature_group_model_comparison.ipynb
 ├── 04_dashboard/
 │   ├── app.py
 │   ├── README.md
@@ -222,6 +236,8 @@ Drought-Food-Security-Early-Warning-System/
 * ✅ Streamlit dashboard prototype created
 * ✅ County-level risk map/dashboard prototype created
 * ✅ Streamlit dashboard deployed publicly
+* ✅ Rainfall-only, NDVI-only, and combined rainfall + NDVI models compared
+* ✅ Feature group model comparison completed
 
 **Current stage:** Baseline model completed, county-level prediction risk table created, and Streamlit dashboard deployed.
 
@@ -232,7 +248,7 @@ Drought-Food-Security-Early-Warning-System/
 * ✅ Create model prediction risk table
 * ✅ Build county-level risk map/dashboard prototype
 * ✅ Deploy dashboard publicly using Streamlit Community Cloud
-* ⬜ Compare rainfall-only, NDVI-only, and combined rainfall + NDVI models
+* ✅ Compare rainfall-only, NDVI-only, and combined rainfall + NDVI models
 * ⬜ Add food price or market data as an additional predictor
 * ⬜ Improve model validation across future IPC periods
 * ⬜ Improve dashboard design, filters, map styling, and stakeholder explanations
@@ -259,7 +275,7 @@ Future improvements can include:
 
 1. Adding cereal market price indicators.
 2. Adding livestock and vegetation stress indicators.
-3. Testing rainfall-only, NDVI-only, and combined feature models.
+3. Adding market access and local economic indicators.
 4. Tuning XGBoost and Random Forest parameters.
 5. Testing the model on future IPC periods.
 6. Improving the Streamlit dashboard design, filters, and stakeholder explanations.
