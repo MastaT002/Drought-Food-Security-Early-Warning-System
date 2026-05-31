@@ -51,7 +51,8 @@ The current model focuses on **high-risk classification**, not exact IPC Phase 1
 | 3 | **Model Comparison**         | Compare multiple baseline models                                 | ✅ Naive Baseline, Logistic Regression, Random Forest, and XGBoost tested |
 | 4 | **Interpretability**         | Identify important predictors                                    | ✅ XGBoost feature importance created                                     |
 | 5 | **Actionable Output**        | Produce a county-level risk table/map                            | ✅ Completed — risk table and Streamlit dashboard created                 |                                                      |
-| 6 | **Reproducibility**          | Documented notebooks and processed datasets                      | ✅ In progress                                                            |
+| 6 | **Feature Group Comparison** | Compare rainfall-only, NDVI-only, and combined rainfall + NDVI models | ✅ Completed — combined rainfall + NDVI model performed best |
+| 7 | **Reproducibility**          | Documented notebooks and processed datasets                      | ✅ In progress                                                            |
 
 ---
 
@@ -192,6 +193,17 @@ Top features included:
 
 This suggests that medium-term vegetation health and rainfall conditions contain useful signals for food insecurity risk classification.
 
+### Feature Group Comparison
+
+A separate feature group comparison was completed to test whether rainfall-only, NDVI-only, or combined rainfall + NDVI features provide the strongest prediction performance.
+
+The comparison showed that:
+
+* Rainfall-only features provided useful signal but had the weakest performance.
+* NDVI-only features performed much better than rainfall-only features.
+* The combined rainfall + NDVI model produced the strongest overall performance.
+
+The main takeaway is that NDVI vegetation indicators are stronger than rainfall indicators alone, but combining rainfall and NDVI gives the best early-warning performance.
 ---
 
 ## 9. Deliverables
@@ -212,6 +224,7 @@ This suggests that medium-term vegetation health and rainfall conditions contain
 | `03_notebooks/08_master_dataset_eda.ipynb`             | Master dataset EDA                             | ✅ Completed          |
 | `03_notebooks/09_baseline_model.ipynb`                 | Baseline machine learning model                | ✅ Completed          |
 | `03_notebooks/10_model_prediction_risk_table.ipynb`    | County-level prediction risk table             | ✅ Completed          |
+| `03_notebooks/11_feature_group_model_comparison.ipynb` | Rainfall-only vs NDVI-only vs combined model comparison | ✅ Completed |
 | `04_dashboard/`                                        | Streamlit risk dashboard and county-level map  | ✅ Created / Deployed |
 
 ---
@@ -233,11 +246,12 @@ This suggests that medium-term vegetation health and rainfall conditions contain
 ✅ Streamlit risk dashboard prototype created  
 ✅ County-level risk map created  
 ✅ Dashboard deployed publicly using Streamlit Community Cloud  
+✅ Rainfall-only, NDVI-only, and combined rainfall + NDVI models compared  
+✅ Feature group model comparison completed  
 
-**Current stage:** Baseline model completed, prediction risk table created, and Streamlit dashboard deployed.
+**Current stage:** Baseline model completed, prediction risk table created, Streamlit dashboard deployed, and feature group comparison completed.
 
-**Next stage:** Improve the dashboard design, compare rainfall-only vs NDVI-only vs combined models, and test additional predictors such as food prices and market indicators.
-
+**Next stage:** Improve the dashboard design, add food price or market indicators, test longer time-lag features, and improve validation across future IPC periods.
 ---
 
 ## 11. Next Research Direction
@@ -246,9 +260,9 @@ Future improvements can include:
 
 1. Improving the Streamlit dashboard design, filters, map styling, and stakeholder explanations.
 2. Expanding the dashboard to include full historical risk periods and future prediction outputs.
-3. Comparing rainfall-only, NDVI-only, and combined rainfall + NDVI models.
-4. Adding cereal market price indicators.
-5. Adding livestock and market access indicators.
+3. Adding cereal market price indicators.
+4. Adding livestock and market access indicators.
+5. Testing longer rainfall and NDVI lag features.
 6. Tuning XGBoost and Random Forest parameters.
 7. Testing model performance on future IPC periods.
 8. Exploring exact IPC phase prediction as a later modeling task.
@@ -266,6 +280,7 @@ Future improvements can include:
 | Master Dataset EDA           | ✅ Completed |
 | Baseline Modeling            | ✅ Completed |
 | Dashboard / Risk Map         | ✅ Prototype deployed |
+| Feature Group Comparison     | ✅ Completed |
 | Additional Predictors        | ⬜ Planned   |
 
 ---
