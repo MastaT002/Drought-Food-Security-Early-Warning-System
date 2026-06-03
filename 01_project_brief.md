@@ -2,6 +2,8 @@
 
 **Date:** May 2026
 
+**Last Update:** June 2026
+
 **Analyst:** Trevor Mulundi (MastaT)
 
 **Status:** Baseline and Food Price Enhanced Models Completed / Risk Dashboard Deployed
