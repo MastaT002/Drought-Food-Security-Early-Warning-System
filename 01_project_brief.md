@@ -4,7 +4,7 @@
 
 **Analyst:** Trevor Mulundi (MastaT)
 
-**Status:** Baseline Model Completed / Risk Dashboard Deployed
+**Status:** Baseline and Food Price Enhanced Models Completed / Risk Dashboard Deployed
 
 **Live dashboard:** [Kenya Drought & Food Security Risk Dashboard](https://drought-food-security-early-warning-system-kenya.streamlit.app/)
 
@@ -18,7 +18,7 @@ During severe drought periods, many ASAL counties experience high levels of IPC 
 
 Humanitarian agencies and government bodies often respond after food insecurity conditions have already been confirmed through official reports. This creates a need for earlier warning systems that can help identify counties at risk before conditions worsen.
 
-This project explores whether publicly available environmental indicators, especially rainfall and vegetation health, can help identify high-risk food insecurity cases at county level.
+This project explores whether publicly available environmental indicators and market indicators, especially rainfall, vegetation health, and staple food prices, can help identify high-risk food insecurity cases at county level.
 
 ---
 
@@ -32,13 +32,14 @@ In the current baseline model, a county-period is classified as **high risk** if
 20% or more of the county population is in IPC Phase 3 or worse
 ```
 
-The model uses publicly available environmental indicators, including:
+The project uses publicly available food security, climate, vegetation, and market price data, including:
 
+* IPC food insecurity outcomes
 * CHIRPS rainfall data
 * MODIS NDVI vegetation health data
-* IPC food insecurity outcomes
+* WFP Kenya food price data
 
-The current model focuses on **high-risk classification**, not exact IPC Phase 1–5 prediction. Predicting exact IPC phase can be explored in a later version of the project.
+The current models focus on **high-risk classification**, not exact IPC Phase 1–5 prediction. Predicting exact IPC phase can be explored in a later version of the project.
 
 ---
 
@@ -50,10 +51,12 @@ The current model focuses on **high-risk classification**, not exact IPC Phase 1
 | 2 | **Crisis Detection Recall**  | Identify most true high-risk cases                               | ✅ XGBoost detected 14 out of 16 high-risk test cases                     |
 | 3 | **Model Comparison**         | Compare multiple baseline models                                 | ✅ Naive Baseline, Logistic Regression, Random Forest, and XGBoost tested |
 | 4 | **Interpretability**         | Identify important predictors                                    | ✅ XGBoost feature importance created                                     |
-| 5 | **Actionable Output**        | Produce a county-level risk table/map                            | ✅ Completed — risk table and Streamlit dashboard created                 |                                                      |
+| 5 | **Actionable Output** | Produce a county-level risk table/map | ✅ Completed — risk table and Streamlit dashboard created |                                                    |
 | 6 | **Feature Group Comparison** | Compare rainfall-only, NDVI-only, and combined rainfall + NDVI models | ✅ Completed — combined rainfall + NDVI model performed best |
 | 7 | **Reproducibility**          | Documented notebooks and processed datasets                      | ✅ In progress                                                            |
-
+| 8 | **Food Price Feature Engineering** | Add food price indicators as market-pressure predictors | ✅ Completed — maize, beans, and rice features created |
+| 9 | **Enhanced Model Comparison** | Compare model performance before and after food price features | ✅ Completed — XGBoost improved overall after food prices |
+| 10 | **Dashboard-Ready Food Price Predictions** | Create prediction table for enhanced model dashboard view | ✅ Completed |
 ---
 
 ## 4. Scope Boundaries
@@ -68,6 +71,7 @@ The current model focuses on **high-risk classification**, not exact IPC Phase 1
 
   * Rainfall indicators
   * NDVI vegetation indicators
+  * Food price indicators
 * Public and open-access data sources
 * Baseline machine learning model comparison
 * Interpretable model outputs such as feature importance and confusion matrix
@@ -80,7 +84,7 @@ The current model focuses on **high-risk classification**, not exact IPC Phase 1
 * Conflict-driven displacement modeling
 * Long-term climate projections beyond the food security early-warning window
 * Full humanitarian decision automation
-* Food price and market indicators, which are planned for a later stage
+* Full market-system modeling beyond staple food price indicators
 
 ---
 
@@ -104,7 +108,7 @@ The current model focuses on **high-risk classification**, not exact IPC Phase 1
 | CHIRPS Rainfall           | UCSB Climate Hazards Center            | Rainfall indicators and rolling averages    |
 | MODIS NDVI                | NASA/USGS via Google Earth Engine      | Vegetation health indicators and anomalies  |
 | Kenya County Boundaries   | Public administrative boundaries / HDX | County-level spatial aggregation            |
-| Cereal Market Prices      | FAO FPMA or other public sources       | Planned future predictor                    |
+| WFP Kenya Food Prices | HDX / WFP food price data | Staple food price indicators for maize, beans, and rice |
 
 ---
 
@@ -117,6 +121,8 @@ The current model focuses on **high-risk classification**, not exact IPC Phase 1
 * MODIS NDVI is a useful proxy for vegetation health and land response.
 * Rainfall and NDVI indicators contain useful early-warning signals for food insecurity risk.
 * A 20% Phase 3+ population threshold is a reasonable starting point for defining widespread food insecurity risk.
+* WFP food price data provides useful market-pressure signals for food insecurity risk.
+* National staple food price averages can be used as proxy indicators where county-level price data is missing.
 
 ### Risks
 
@@ -126,6 +132,7 @@ The current model focuses on **high-risk classification**, not exact IPC Phase 1
 * **Satellite data limitations:** Rainfall and NDVI estimates may not fully capture local ground conditions.
 * **Model drift:** Environmental and socioeconomic patterns may change over time, reducing future model performance.
 * **Correlation vs causation:** The analysis shows predictive signals and associations, not proof that rainfall or NDVI alone cause food insecurity.
+* **Incomplete county-level food price coverage:** Some target counties and periods do not have direct county-level food price records, so national proxy prices are used where needed.
 
 ---
 
@@ -206,7 +213,44 @@ The comparison showed that:
 The main takeaway is that NDVI vegetation indicators are stronger than rainfall indicators alone, but combining rainfall and NDVI gives the best early-warning performance.
 ---
 
-## 9. Deliverables
+## 9. Food Price Enhanced Modeling Summary
+
+After the baseline rainfall + NDVI model was completed, WFP Kenya food price data was added as an additional market-pressure indicator.
+
+The first food price feature version focused on three staple food groups:
+
+* maize
+* beans
+* rice
+
+These were selected because they had the strongest coverage compared with other commodities.
+
+Because county-level food price coverage was incomplete, a hybrid feature strategy was used:
+
+* county-level staple food prices where available
+* national staple food price proxy where county-level prices were missing
+
+This allowed every county-period record to receive a food price indicator.
+
+### Enhanced Model Results
+
+The models were tested again using rainfall, NDVI, and food price features.
+
+| Model                             | Accuracy | Precision | Recall | F1-score |
+| --------------------------------- | -------: | --------: | -----: | -------: |
+| Logistic Regression + Food Prices |   0.7846 |    0.5357 | 0.9375 |   0.6818 |
+| Random Forest + Food Prices       |   0.8462 |    0.6500 | 0.8125 |   0.7222 |
+| XGBoost + Food Prices             |   0.8923 |    0.7647 | 0.8125 |   0.7879 |
+
+### Enhanced Model Insight
+
+XGBoost with rainfall, NDVI, and food price features achieved the strongest overall result.
+
+Compared with the baseline XGBoost model, the enhanced XGBoost model improved accuracy, F1-score, and high-risk precision. However, recall decreased slightly, meaning the model produced fewer false alarms but missed slightly more high-risk cases.
+
+Feature importance showed that NDVI and rainfall remained the strongest predictors, but the 6-month staple food price average also contributed useful predictive signal.
+---
+## 10. Deliverables
 
 | Deliverable                                            | Description                                    | Status               |
 | ------------------------------------------------------ | ---------------------------------------------- | -------------------- |
@@ -225,6 +269,10 @@ The main takeaway is that NDVI vegetation indicators are stronger than rainfall 
 | `03_notebooks/09_baseline_model.ipynb`                 | Baseline machine learning model                | ✅ Completed          |
 | `03_notebooks/10_model_prediction_risk_table.ipynb`    | County-level prediction risk table             | ✅ Completed          |
 | `03_notebooks/11_feature_group_model_comparison.ipynb` | Rainfall-only vs NDVI-only vs combined model comparison | ✅ Completed |
+| `03_notebooks/12_food_price_data_collection.ipynb` | Food price data collection, cleaning, and feature creation | ✅ Completed |
+| `03_notebooks/13_food_price_merge_with_master_dataset.ipynb` | Food price merge with master dataset | ✅ Completed |
+| `03_notebooks/14_model_with_food_price_features.ipynb` | Enhanced model with food price features | ✅ Completed |
+| `03_notebooks/15_food_price_model_predictions.ipynb` | Dashboard-ready food price prediction table | ✅ Completed |
 | `04_dashboard/`                                        | Streamlit risk dashboard and county-level map  | ✅ Created / Deployed |
 
 ---
@@ -248,10 +296,18 @@ The main takeaway is that NDVI vegetation indicators are stronger than rainfall 
 ✅ Dashboard deployed publicly using Streamlit Community Cloud  
 ✅ Rainfall-only, NDVI-only, and combined rainfall + NDVI models compared  
 ✅ Feature group model comparison completed  
+✅ WFP Kenya food price data collected
+✅ Food price data cleaned and inspected
+✅ Staple food groups selected: maize, beans, and rice
+✅ County-level and national-level food price features created
+✅ Food price features merged with IPC + rainfall + NDVI master dataset
+✅ Enhanced food price model trained and evaluated
+✅ Baseline vs enhanced model comparison completed
+✅ Food price model dashboard prediction table created
 
-**Current stage:** Baseline model completed, prediction risk table created, Streamlit dashboard deployed, and feature group comparison completed.
+**Current stage:** Baseline model completed, food price enhanced model tested, dashboard-ready prediction tables created, and Streamlit dashboard update in progress.
 
-**Next stage:** Improve the dashboard design, add food price or market indicators, test longer time-lag features, and improve validation across future IPC periods.
+**Next stage:** Update and deploy the Streamlit dashboard to compare baseline vs enhanced model predictions, then improve validation across future IPC periods.
 ---
 
 ## 11. Next Research Direction
@@ -260,9 +316,9 @@ Future improvements can include:
 
 1. Improving the Streamlit dashboard design, filters, map styling, and stakeholder explanations.
 2. Expanding the dashboard to include full historical risk periods and future prediction outputs.
-3. Adding cereal market price indicators.
+3. Improving food price feature coverage and testing additional commodities.
 4. Adding livestock and market access indicators.
-5. Testing longer rainfall and NDVI lag features.
+5. Testing longer rainfall, NDVI, and food price lag features.
 6. Tuning XGBoost and Random Forest parameters.
 7. Testing model performance on future IPC periods.
 8. Exploring exact IPC phase prediction as a later modeling task.
@@ -281,7 +337,8 @@ Future improvements can include:
 | Baseline Modeling            | ✅ Completed |
 | Dashboard / Risk Map         | ✅ Prototype deployed |
 | Feature Group Comparison     | ✅ Completed |
-| Additional Predictors        | ⬜ Planned   |
+| Food Price Predictors        | ✅ Completed |
+| Additional Predictors        | ⬜ Planned — livestock, conflict, market access |
 
 ---
 
