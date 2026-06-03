@@ -18,4 +18,42 @@ ndvi_1_month_mean,float,One-month NDVI mean for the county-period,0.645498
 ndvi_3_month_mean,float,Average NDVI over the previous 3 months,0.469621
 ndvi_6_month_mean,float,Average NDVI over the previous 6 months,0.424800
 ndvi_anomaly,float,NDVI anomaly showing difference from expected vegetation condition,0.078739
-high_risk,integer,Binary modeling target where 1 means Phase 3+ percentage is 20% or higher and 0 means below 20%,1
+high_food_insecurity_risk,integer,Binary modeling target where 1 means Phase 3+ percentage is 20% or higher and 0 means below 20%,1
+month,date,Monthly date key used to merge food price features with IPC periods,2019-07-01
+county_beans_price_per_kg,float,County-level average beans price per kilogram where county market data is available,92.45
+county_maize_price_per_kg,float,County-level average maize price per kilogram where county market data is available,48.20
+county_rice_price_per_kg,float,County-level average rice price per kilogram where county market data is available,134.75
+county_staple_price_per_kg,float,Average county-level staple food price per kilogram using available maize beans and rice prices,73.10
+county_price_available,integer,Binary flag showing whether county-level food price data was available for the county-period,1
+county_staple_items_available,integer,Number of staple food groups available when calculating county staple price,2
+county_maize_price_per_kg_3_month_avg,float,Three-month rolling average of county-level maize price per kilogram,49.85
+county_maize_price_per_kg_6_month_avg,float,Six-month rolling average of county-level maize price per kilogram,47.92
+county_beans_price_per_kg_3_month_avg,float,Three-month rolling average of county-level beans price per kilogram,96.30
+county_beans_price_per_kg_6_month_avg,float,Six-month rolling average of county-level beans price per kilogram,94.10
+county_rice_price_per_kg_3_month_avg,float,Three-month rolling average of county-level rice price per kilogram,137.25
+county_rice_price_per_kg_6_month_avg,float,Six-month rolling average of county-level rice price per kilogram,135.60
+county_staple_price_per_kg_3_month_avg,float,Three-month rolling average of county-level staple food price per kilogram,76.42
+county_staple_price_per_kg_6_month_avg,float,Six-month rolling average of county-level staple food price per kilogram,74.88
+national_beans_price_per_kg,float,Kenya-wide monthly average beans price per kilogram,88.50
+national_maize_price_per_kg,float,Kenya-wide monthly average maize price per kilogram,45.30
+national_rice_price_per_kg,float,Kenya-wide monthly average rice price per kilogram,132.40
+national_staple_price_per_kg,float,Kenya-wide monthly average staple food price per kilogram using maize beans and rice,88.73
+national_maize_price_per_kg_3_month_avg,float,Three-month rolling average of national maize price per kilogram,46.20
+national_maize_price_per_kg_6_month_avg,float,Six-month rolling average of national maize price per kilogram,45.75
+national_beans_price_per_kg_3_month_avg,float,Three-month rolling average of national beans price per kilogram,90.15
+national_beans_price_per_kg_6_month_avg,float,Six-month rolling average of national beans price per kilogram,89.40
+national_rice_price_per_kg_3_month_avg,float,Three-month rolling average of national rice price per kilogram,134.10
+national_rice_price_per_kg_6_month_avg,float,Six-month rolling average of national rice price per kilogram,133.50
+national_staple_price_per_kg_3_month_avg,float,Three-month rolling average of national staple food price per kilogram,90.10
+national_staple_price_per_kg_6_month_avg,float,Six-month rolling average of national staple food price per kilogram,89.55
+final_staple_price_per_kg,float,Final hybrid staple food price per kilogram using county price where available and national price as fallback,73.10
+final_staple_price_per_kg_3_month_avg,float,Three-month rolling average of final hybrid staple food price per kilogram,76.42
+final_staple_price_per_kg_6_month_avg,float,Six-month rolling average of final hybrid staple food price per kilogram,74.88
+food_price_source,text,Source of the final food price value: county if county-level price was available or national_proxy if national value was used,county
+county_food_price_matched,integer,Binary flag where 1 means county-level food price was matched and 0 means national proxy was used,1
+high_food_insecurity_risk,integer,Binary modeling target where 1 means Phase 3+ percentage is 20% or higher and 0 means below 20%,1
+predicted_high_risk,integer,Model prediction where 1 means predicted high food insecurity risk and 0 means predicted not high risk,1
+predicted_risk_probability,float,Predicted probability of high food insecurity risk from the model,0.7342
+predicted_risk_probability_pct,float,Predicted probability of high food insecurity risk expressed as a percentage,73.42
+risk_level,text,Dashboard-friendly risk category based on predicted probability: Low Risk Moderate Risk or High Risk,High Risk
+actual_high_risk,integer,Actual binary high-risk label created from Phase 3+ percentage threshold,1
