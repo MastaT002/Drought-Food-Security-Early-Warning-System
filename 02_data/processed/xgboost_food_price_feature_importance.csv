@@ -1,0 +1,15 @@
+feature,importance
+ndvi_6_month_mean,0.17411894
+ndvi_3_month_mean,0.12652598
+rainfall_6_month_total,0.108202405
+rainfall_6_month_avg,0.09567756
+final_staple_price_per_kg_6_month_avg,0.065043025
+ndvi_anomaly,0.059097033
+rainfall_3_month_avg,0.052304745
+rainfall_3_month_total,0.04984808
+final_staple_price_per_kg_3_month_avg,0.049650498
+mean_rainfall_mm,0.04935325
+final_staple_price_per_kg,0.047452416
+mean_ndvi,0.04619142
+ndvi_1_month_mean,0.045853168
+county_food_price_matched,0.030681465
