@@ -2,17 +2,17 @@
 
 A data analytics and machine learning portfolio project focused on building an early-warning system for food insecurity risk across Kenya's Arid and Semi-Arid Lands (ASAL).
 
-**Data sources:** IPC food insecurity outcomes, CHIRPS rainfall data, and MODIS NDVI vegetation indicators.
+**Data sources:** IPC food insecurity outcomes, CHIRPS rainfall data, MODIS NDVI vegetation indicators, and WFP Kenya food price data.
 
-**Current stage:** Baseline machine learning model completed and interactive Streamlit risk dashboard deployed.
+**Current stage:** Baseline model completed, food price features added, enhanced model tested, and Streamlit dashboard being updated to compare baseline vs food price model predictions.
 
-**Latest model result:** XGBoost was selected as the strongest balanced baseline model based on recall, F1-score, and ROC-AUC.
+**Latest enhanced model result:** XGBoost with rainfall, NDVI, and food price features achieved the strongest overall performance after adding market indicators.
 
-**Dashboard output:** A county-level prediction risk table and interactive map dashboard were created using the selected XGBoost model.
+**Dashboard output:** County-level prediction risk tables and an interactive map dashboard were created for the baseline XGBoost model and the enhanced food price XGBoost model.
 
 **Live dashboard:** [Kenya Drought & Food Security Risk Dashboard](https://drought-food-security-early-warning-system-kenya.streamlit.app/)
 
-**Next stage:** Improve the dashboard, add food price or market indicators, test longer time-lag features, and improve validation across future IPC periods.
+**Next stage:** Improve the dashboard comparison view, test longer time-lag features, tune the enhanced model, and improve validation across future IPC periods.
 
 ---
 
@@ -25,11 +25,13 @@ A data analytics and machine learning portfolio project focused on building an e
 
 ## Objective
 
-Build an interpretable machine learning early-warning model that predicts high-risk food insecurity cases across Kenya ASAL counties using publicly available environmental and food security data.
+Build an interpretable machine learning early-warning model that predicts high-risk food insecurity cases across Kenya ASAL counties using publicly available food security, climate, vegetation, and market price data.
 
 In this project, a county-period is classified as **high risk** if **20% or more of the county population is in IPC Phase 3 or worse**.
 
-The current model uses rainfall and NDVI indicators to classify county-periods as:
+The baseline model uses rainfall and NDVI indicators, while the enhanced model also includes staple food price indicators.
+
+Both models classify county-periods as:
 
 * `1` = High Risk
 * `0` = Not High Risk
@@ -38,7 +40,7 @@ The current model uses rainfall and NDVI indicators to classify county-periods a
 
 ## Current Findings
 
-The current analysis combines IPC food insecurity outcomes, CHIRPS rainfall indicators, and MODIS NDVI vegetation indicators for Kenya ASAL counties.
+The current analysis combines IPC food insecurity outcomes, CHIRPS rainfall indicators, MODIS NDVI vegetation indicators, and WFP Kenya food price indicators for Kenya ASAL counties.
 
 Key findings from exploratory analysis:
 
@@ -53,6 +55,19 @@ These findings suggest that vegetation health and rainfall are useful environmen
 
 **Important note:** These results show association, not proof of causation. Food insecurity may also be influenced by market prices, livestock conditions, conflict, income, market access, humanitarian support, and other local factors.
 
+---
+### Food Price Feature Findings
+
+Food price data was added as an additional market-pressure indicator using WFP Kenya food price records.
+
+The first food price feature version focused on maize, beans, and rice because these staple groups had the strongest coverage.
+
+Because county-level food price coverage was incomplete, a hybrid feature strategy was used:
+
+- county-level staple food prices where available
+- national staple food price proxy where county prices were missing
+
+This allowed food price features to be included for all county-period records in the final modeling dataset.
 ---
 
 ## Baseline Modeling Results
@@ -127,6 +142,67 @@ The comparison showed that:
 The key takeaway is that NDVI vegetation indicators are stronger than rainfall indicators alone, but combining rainfall and NDVI gives the best early-warning performance.
 ---
 
+## Food Price Enhanced Modeling Results
+
+After the baseline model was completed, WFP Kenya food price data was added as an additional market-pressure indicator.
+
+The food price feature version focused on three staple food groups:
+
+* maize
+* beans
+* rice
+
+These staples were selected because they had the strongest record counts, useful time coverage, and broad market coverage compared with other commodities.
+
+Because county-level food price coverage was incomplete, a hybrid food price strategy was used:
+
+* county-level staple food prices where available
+* national staple food price proxy where county-level prices were missing
+
+This allowed food price features to be included for all county-period records in the final modeling dataset.
+
+### Enhanced Model Comparison
+
+The models were tested again using rainfall, NDVI, and food price features.
+
+| Model                             | Accuracy | Precision | Recall | F1-score |
+| --------------------------------- | -------: | --------: | -----: | -------: |
+| Logistic Regression + Food Prices |   0.7846 |    0.5357 | 0.9375 |   0.6818 |
+| Random Forest + Food Prices       |   0.8462 |    0.6500 | 0.8125 |   0.7222 |
+| XGBoost + Food Prices             |   0.8923 |    0.7647 | 0.8125 |   0.7879 |
+
+### Food Price Model Insights
+
+XGBoost with rainfall, NDVI, and food price features achieved the strongest overall result.
+
+Compared with the baseline XGBoost model, the enhanced XGBoost model improved:
+
+* accuracy
+* F1-score
+* high-risk precision
+
+However, high-risk recall decreased slightly. This means the enhanced model produced fewer false alarms, but it missed slightly more high-risk cases than the baseline XGBoost model.
+
+The final result shows that food price features added useful predictive signal, especially when used with XGBoost.
+
+### Food Price Feature Importance
+
+The XGBoost feature importance results showed that NDVI and rainfall remained the strongest predictors.
+
+The most important features included:
+
+* `ndvi_6_month_mean`
+* `ndvi_3_month_mean`
+* `rainfall_6_month_total`
+* `rainfall_6_month_avg`
+* `final_staple_price_per_kg_6_month_avg`
+
+The appearance of `final_staple_price_per_kg_6_month_avg` among the top features shows that longer-term staple food price pressure contributed useful information to the model.
+
+Overall, the enhanced model suggests that food insecurity risk is linked not only to rainfall and vegetation conditions, but also to market price pressure.
+
+---
+
 ## Success Criteria
 
 * [x] Build a baseline model to classify high-risk food insecurity cases
@@ -136,6 +212,10 @@ The key takeaway is that NDVI vegetation indicators are stronger than rainfall i
 * [x] Compare rainfall-only, NDVI-only, and combined rainfall + NDVI models
 * [x] Output must be interpretable — stakeholders can see why a county is flagged
 * [x] Deliver a simple risk map + table, not a raw CSV
+* [x] Add food price indicators as an additional predictor
+* [x] Create county-level and national-level food price features
+* [x] Compare baseline model performance before and after food price features
+* [x] Create dashboard-ready prediction table for the food price model
 
 ---
 
@@ -147,7 +227,7 @@ The key takeaway is that NDVI vegetation indicators are stronger than rainfall i
 | CHIRPS Rainfall           | UCSB Climate Hazards Center                  | Monthly rainfall / climate data  | ✅ Added        |
 | MODIS NDVI Vegetation     | NASA/USGS MODIS via Google Earth Engine      | Satellite vegetation health data | ✅ Added        |
 | Kenya County Boundaries   | HDX / administrative boundaries              | County shapefile / GeoJSON       | ✅ Added        |
-| Cereal Market Prices      | FAO FPMA or other public market price source | Time-series market data          | ⬜ Planned      |
+| WFP Kenya Food Prices | HDX / WFP food price data | Market price data for staple foods | ✅ Added |
 
 ---
 
@@ -180,7 +260,15 @@ Drought-Food-Security-Early-Warning-System/
 │       ├── phase3_environment_correlation_summary.csv
 │       ├── feature_group_model_comparison.csv
 │       ├── model_prediction_risk_table.csv
-│       └── kenya_target_counties.geojson
+│       ├── kenya_target_counties.geojson
+│       ├── wfp_food_prices_ken.csv
+│       ├── county_food_price_monthly_features.csv
+│       ├── national_food_price_monthly_features.csv
+│       ├── ipc_rainfall_ndvi_food_price_master_dataset.csv
+│       ├── model_results_food_prices.csv
+│       ├── food_price_model_improvement_comparison.csv
+│       ├── xgboost_food_price_feature_importance.csv
+│       └── model_prediction_risk_table_food_prices.csv
 ├── 03_notebooks/
 │   ├── 01_ipc_data_cleaning.ipynb
 │   ├── 02_ipc_eda.ipynb
@@ -193,7 +281,11 @@ Drought-Food-Security-Early-Warning-System/
 │   ├── 08_master_dataset_eda.ipynb
 │   ├── 09_baseline_model.ipynb
 │   ├── 10_model_prediction_risk_table.ipynb
-│   └── 11_feature_group_model_comparison.ipynb
+│   ├── 11_feature_group_model_comparison.ipynb
+│   ├── 12_food_price_data_collection.ipynb
+│   ├── 13_food_price_merge_with_master_dataset.ipynb
+│   ├── 14_model_with_food_price_features.ipynb
+│   └── 15_food_price_model_predictions.ipynb
 ├── 04_dashboard/
 │   ├── app.py
 │   ├── README.md
@@ -238,20 +330,28 @@ Drought-Food-Security-Early-Warning-System/
 * ✅ Streamlit dashboard deployed publicly
 * ✅ Rainfall-only, NDVI-only, and combined rainfall + NDVI models compared
 * ✅ Feature group model comparison completed
+* ✅ WFP Kenya food price data collected
+* ✅ Food price data inspected and cleaned
+* ✅ Staple food groups selected: maize, beans, and rice
+* ✅ Food price unit standardization completed
+* ✅ County-level and national-level food price features created
+* ✅ Food price features merged with rainfall + NDVI master dataset
+* ✅ Enhanced model with food price features trained and evaluated
+* ✅ Baseline vs food price model comparison completed
+* ✅ XGBoost food price feature importance reviewed
+* ✅ Food price dashboard prediction table created
 
-**Current stage:** Baseline model completed, county-level prediction risk table created, and Streamlit dashboard deployed.
+**Current stage:** Food price features added, enhanced model tested, dashboard-ready food price prediction table created, and Streamlit dashboard updated to compare baseline vs enhanced model predictions.
 
 **Live dashboard:** [Kenya Drought & Food Security Risk Dashboard](https://drought-food-security-early-warning-system-kenya.streamlit.app/)
 
 **Next stage:**
 
-* ✅ Create model prediction risk table
-* ✅ Build county-level risk map/dashboard prototype
-* ✅ Deploy dashboard publicly using Streamlit Community Cloud
-* ✅ Compare rainfall-only, NDVI-only, and combined rainfall + NDVI models
-* ⬜ Add food price or market data as an additional predictor
-* ⬜ Improve model validation across future IPC periods
-* ⬜ Improve dashboard design, filters, map styling, and stakeholder explanations
+* ⬜ Improve Streamlit dashboard comparison between baseline and enhanced models
+* ⬜ Tune XGBoost and Random Forest hyperparameters
+* ⬜ Test longer rainfall, NDVI, and food price lag features
+* ⬜ Improve validation across future IPC periods
+* ⬜ Add livestock, conflict, market access, or humanitarian response indicators
 
 ---
 
@@ -262,10 +362,11 @@ This project is an early-stage portfolio model and should not be used as a produ
 Current limitations include:
 
 * The dataset is relatively small.
-* The model currently uses rainfall and NDVI indicators only.
-* Food prices, conflict, livestock conditions, market access, and humanitarian response data are not yet included.
+* The baseline model uses rainfall and NDVI indicators. The enhanced model also includes food price indicators.
+* Food prices have been added, but conflict, livestock conditions, market access, and humanitarian response data are not yet included.
 * The current target is based on a 20% Phase 3+ population threshold.
 * Results show predictive signals, not proof of causation.
+* County-level food price data is incomplete for some counties and periods, so national food price proxy values were used where county-level prices were missing.
 
 ---
 
@@ -273,13 +374,11 @@ Current limitations include:
 
 Future improvements can include:
 
-1. Adding cereal market price indicators.
-2. Adding livestock and vegetation stress indicators.
-3. Adding market access and local economic indicators.
-4. Tuning XGBoost and Random Forest parameters.
-5. Testing the model on future IPC periods.
-6. Improving the Streamlit dashboard design, filters, and stakeholder explanations.
-7. Expanding the dashboard to include full historical risk periods and future prediction outputs.
+1. Improve food price feature coverage and test more staple commodities.
+2. Add livestock, conflict, market access, and humanitarian response indicators.
+3. Tune XGBoost and Random Forest parameters.
+4. Test the model on future IPC periods.
+5. Improve Streamlit dashboard design, filters, map styling, and stakeholder explanations.
 
 ---
 
