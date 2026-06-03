@@ -2,7 +2,7 @@
 
 **Project:** Drought & Food Security Early Warning System  
 **Date:** May 2026  
-**Status:** IPC, CHIRPS rainfall, MODIS NDVI, master dataset EDA, baseline modeling, prediction risk table, Streamlit dashboard, and feature group comparison completed
+**Status:** IPC, CHIRPS rainfall, MODIS NDVI, WFP food price features, master dataset EDA, baseline modeling, enhanced food price modeling, prediction risk tables, Streamlit dashboard, and feature group comparison completed
 ---
 
 ### IPC Acute Food Insecurity Phase Classifications
@@ -77,8 +77,6 @@ Final columns:
 - `phase_3_plus_population`
 - `total_population`
 - `phase_3_plus_percentage`
-
----
 
 ---
 
@@ -176,6 +174,28 @@ The comparison showed that rainfall-only features provided useful signal but had
 
 The main takeaway is that NDVI vegetation indicators are stronger than rainfall indicators alone, but combining rainfall and NDVI gives the best early-warning performance.
 
+## Food Price Enhanced Master Dataset Created
+
+The project now includes an enhanced master dataset combining IPC food insecurity outcomes, CHIRPS rainfall indicators, MODIS NDVI vegetation indicators, and WFP Kenya food price indicators.
+
+**Enhanced master dataset:**
+`02_data/processed/ipc_rainfall_ndvi_food_price_master_dataset.csv`
+
+This dataset was created by merging the rainfall + NDVI master dataset with county-level and national-level food price features.
+
+Food price feature files created:
+
+* `02_data/processed/county_food_price_monthly_features.csv`
+* `02_data/processed/national_food_price_monthly_features.csv`
+
+The enhanced dataset includes:
+
+* IPC outcome columns
+* Rainfall feature columns
+* NDVI feature columns
+* County-level food price features where available
+* National food price proxy features
+* Final hybrid food price features
 ---
 
 ## 2. Climate Predictors
@@ -221,21 +241,34 @@ Tutorial: https://developers.google.com/earth-engine/tutorials/community/chirps
 
 ## 4. Market & Economic Predictors
 
-### FAO Food Price Monitoring and Analysis (FPMA)
+### WFP Kenya Food Prices
+
 | Attribute | Detail |
 |---|---|
-| **Source** | FAO Global Information and Early Warning System (GIEWS) |
-| **URL** | https://www.fao.org/giews/food-prices/tool/public/#/home |
-| **Format** | Excel / CSV download |
-| **Coverage** | Kenya, major wholesale markets (Nairobi, Mombasa, Kisumu, Eldoret), 2000–present |
-| **Update Frequency** | Monthly |
-| **Granularity** | Market-level prices for maize, beans, sorghum, rice, wheat |
+| **Source** | World Food Programme food price data via Humanitarian Data Exchange (HDX) |
+| **Dataset** | WFP Food Prices for Kenya |
+| **Format** | CSV |
+| **Coverage** | Kenya market-level food price records |
+| **Granularity** | Market-level prices aggregated to county-month and national-month features |
 | **Access** | Free, public |
-| **Quality** | ⭐⭐⭐⭐ High for formal markets; ⭐⭐⭐ Moderate for remote ASAL markets |
-| **Notes** | Focus on **wholesale maize and bean prices** — these are the staple foods in ASAL counties. You'll need to decide: use Nairobi prices as proxy for all counties, or try to find ASAL-specific market data (harder to find). |
+| **Use in Project** | Food price / market-pressure predictor |
+| **Selected Commodities** | Maize, beans, and rice |
+| **Processed Output** | `county_food_price_monthly_features.csv`, `national_food_price_monthly_features.csv` |
+| **Quality Notes** | Useful market signal, but county-level coverage is incomplete for some ASAL counties and periods |
 
-**Direct tool:** https://www.fao.org/giews/food-prices/tool/public/#/dataset/domestic  
-Select "Kenya" → download CSV.
+**Processing performed:**
+
+* Downloaded WFP Kenya food price data.
+* Inspected markets, commodities, units, and dates.
+* Mapped market names to target ASAL counties where possible.
+* Grouped commodity variants into staple groups:
+  * maize
+  * beans
+  * rice
+* Standardized units to price per kilogram.
+* Created county-level monthly price features.
+* Created national-level monthly price features.
+* Created hybrid food price features using county prices where available and national prices as fallback.
 
 ---
 
@@ -286,7 +319,7 @@ Select "Kenya" → download CSV.
 | IPC Phase (FEWS NET) | ⭐⭐⭐⭐⭐ | County | ~1 month | Easy | **Critical** |
 | CHIRPS Rainfall | ⭐⭐⭐⭐⭐ | 5.5km pixel | ~5 days | Medium (needs GEE) | **Critical** |
 | MODIS NDVI | ⭐⭐⭐⭐⭐ | 250m pixel | ~16 days | Medium (needs GEE) | **Critical** |
-| FAO FPMA Prices | ⭐⭐⭐⭐ | Market | ~1 month | Easy | **High** |
+| WFP Kenya Food Prices | ⭐⭐⭐⭐ | Market | Monthly | Easy | **High** |
 | Kenya Boundaries | ⭐⭐⭐⭐⭐ | County | Static | Easy | **Required** |
 | NDMA Bulletins | ⭐⭐⭐⭐ | County | ~1 month | Easy | **Validation** |
 
@@ -298,7 +331,7 @@ Select "Kenya" → download CSV.
 |---|---|---|
 | **IPC data is quarterly, not monthly** | Limits time-series granularity to 4 points/year | Use quarterly models; interpolate only if justified |
 | **CHIRPS/NDVI require spatial aggregation** | Adds preprocessing complexity | Use Google Earth Engine Python API; write reusable county-aggregation function |
-| **FAO prices only cover major markets** | May not reflect remote ASAL prices | Acknowledge limitation in project brief; use Nairobi wholesale as proxy with caveat |
+| **Incomplete county-level food price coverage** | Some counties or periods do not have direct market price records | Use county-level prices where available and national staple price proxy where county prices are missing |
 | **Cloud gaps in NDVI during rainy season** | Missing vegetation data when it's most needed | Use 16-day composites with cloud masking; flag missing periods in data dictionary |
 | **Different date formats across sources** | Merge errors | Standardize all dates to `YYYY-MM-01` (monthly) or `YYYY-QX` (quarterly) |
 
@@ -319,7 +352,13 @@ Main files:
 The dashboard uses:
 
 * `02_data/processed/model_prediction_risk_table.csv`
+* `02_data/processed/model_prediction_risk_table_food_prices.csv`
 * `02_data/processed/kenya_target_counties.geojson`
+
+The dashboard allows users to switch between:
+
+* Baseline model: rainfall + NDVI
+* Enhanced model: rainfall + NDVI + food prices
 
 Dashboard features include:
 
@@ -360,6 +399,15 @@ The dashboard is a prototype portfolio output and should not be used as a produc
 20. [x] **Deploy dashboard publicly using Streamlit Community Cloud**
 21. [x] **Compare rainfall-only, NDVI-only, and combined rainfall + NDVI models**
 22. [x] **Create feature group model comparison output**
+23. [x] **Download WFP Kenya food price data**
+24. [x] **Inspect and clean food price data**
+25. [x] **Select staple food groups: maize, beans, and rice**
+26. [x] **Standardize food prices to price per kilogram**
+27. [x] **Create county-level and national-level monthly food price features**
+28. [x] **Merge food price features with IPC + rainfall + NDVI master dataset**
+29. [x] **Train and evaluate enhanced models with food price features**
+30. [x] **Compare baseline vs food price enhanced model performance**
+31. [x] **Create dashboard-ready food price prediction table**
 
 ---
 
@@ -369,11 +417,12 @@ The dashboard is a prototype portfolio output and should not be used as a produc
 2. [x] **Build county-level risk map or dashboard**
 3. [x] **Deploy Streamlit dashboard publicly**
 4. [x] **Compare rainfall-only, NDVI-only, and combined rainfall + NDVI models**
-5. [ ] **Add FAO FPMA cereal market price data**
-6. [ ] **Update data dictionary as new features are added**
-7. [ ] **Improve validation using future IPC periods**
-8. [ ] **Expand dashboard to include full historical periods and future prediction outputs**
-9. [ ] **Improve dashboard design, filters, map styling, and stakeholder explanations**
+5. [x] **Add food price / market price data**
+6. [ ] **Improve food price feature coverage and test additional commodities**
+7. [ ] **Update data dictionary as new food price features are added**
+8. [ ] **Improve validation using future IPC periods**
+9. [ ] **Expand dashboard to compare baseline and enhanced food price model predictions**
+10. [ ] **Improve dashboard design, filters, map styling, and stakeholder explanations**
 
 ---
 
